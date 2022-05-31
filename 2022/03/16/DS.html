@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Data Science | kione</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Data Science" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<meta property="og:description" content="An easy to use blogging platform with support for Jupyter Notebooks." />
+<link rel="canonical" href="https://ki5n2.github.io/charcoal/2022/03/16/DS.html" />
+<meta property="og:url" content="https://ki5n2.github.io/charcoal/2022/03/16/DS.html" />
+<meta property="og:site_name" content="kione" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-16T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Data Science" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-03-16T00:00:00-05:00","datePublished":"2022-03-16T00:00:00-05:00","description":"An easy to use blogging platform with support for Jupyter Notebooks.","headline":"Data Science","mainEntityOfPage":{"@type":"WebPage","@id":"https://ki5n2.github.io/charcoal/2022/03/16/DS.html"},"url":"https://ki5n2.github.io/charcoal/2022/03/16/DS.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/charcoal/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ki5n2.github.io/charcoal/feed.xml" title="kione" /><link rel="shortcut icon" type="image/x-icon" href="/charcoal/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/charcoal/">kione</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/charcoal/about/">About Me</a><a class="page-link" href="/charcoal/search/">Search</a><a class="page-link" href="/charcoal/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Data Science</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-16T00:00:00-05:00" itemprop="datePublished">
+        Mar 16, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/ki5n2/charcoal/tree/master/_notebooks/2022-03-16-DS.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/charcoal/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/ki5n2/charcoal/master?filepath=_notebooks%2F2022-03-16-DS.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/charcoal/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/ki5n2/charcoal/blob/master/_notebooks/2022-03-16-DS.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/charcoal/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Fki5n2%2Fcharcoal%2Fblob%2Fmaster%2F_notebooks%2F2022-03-16-DS.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/charcoal/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h3"><a href="#선형회귀">선형회귀 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#잔차제곱합">잔차제곱합 </a></li>
+<li class="toc-entry toc-h4"><a href="#모형의-매트릭스화">모형의 매트릭스화 </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#결론">결론 </a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-03-16-DS.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> Topic: 단순선형회귀</p>
+<ul>
+<li>lenture: Data Science_1nd week of lectures.</li>
+<li>lenture date: 2022-03-07</li>
+<li>lecturer: Guebin choi</li>
+<li>study date: 2022-03-16</li>
+<li>author: Kione kim</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>이번 학기동안 배울 것: DNN(심층신경망), CNN(합성곱신경망), GAN(적대적생성신경망)인데, DNN을 바로 이해하기 어렵다.</p>
+</li>
+<li>
+<p>따라서 다음의 과정을 학습한 후 심층 신경망으로 넘어갈 예정: (선형대수학 $\to$) 회귀분석 $\to$ 로지스틱회귀분석 $\to$ 심층신경망</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="선형회귀">
+<a class="anchor" href="#%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>선형회귀<a class="anchor-link" href="#%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 카페 예제</p>
+<ul>
+<li>온도가 높아지면 아이스아메리카노의 판매량이 증가한다는 사실을 알게 되었다.   </li>
+<li>일기예보를 통해, 온도 $\to$ 아이스아메리카노 판매량 예측을 하고 싶다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 자료생성</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mf">20.1</span><span class="p">,</span><span class="mf">22.2</span><span class="p">,</span><span class="mf">22.7</span><span class="p">,</span><span class="mf">23.3</span><span class="p">,</span><span class="mf">24.4</span><span class="p">,</span><span class="mf">25.1</span><span class="p">,</span><span class="mf">26.2</span><span class="p">,</span><span class="mf">27.3</span><span class="p">,</span><span class="mf">28.4</span><span class="p">,</span><span class="mf">30.4</span><span class="p">])</span>
+<span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10,), dtype=float32, numpy=
+array([20.1, 22.2, 22.7, 23.3, 24.4, 25.1, 26.2, 27.3, 28.4, 30.4],
+      dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>x와 y의 관계는 다음과 같이 가정
+
+$${\bf y} \approx 10.2 + 2.2{\bf x}$$
+</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">50000</span><span class="p">)</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">10</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mf">10.2</span> <span class="o">+</span> <span class="mf">2.2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">epsilon</span>
+<span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10,), dtype=float32, numpy=
+array([53.68625 , 60.12511 , 58.93714 , 60.65312 , 64.45385 , 66.9807  ,
+       67.960144, 70.73565 , 72.87779 , 77.54677 ], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10,), dtype=float32, numpy=
+array([20.1, 22.2, 22.7, 23.3, 24.4, 25.1, 26.2, 27.3, 28.4, 30.4],
+      dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10,), dtype=float32, numpy=
+array([53.68625 , 60.12511 , 58.93714 , 60.65312 , 64.45385 , 66.9807  ,
+       67.960144, 70.73565 , 72.87779 , 77.54677 ], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([[</span><span class="n">x</span><span class="p">],[</span><span class="n">y</span><span class="p">]],</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">data</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10, 2), dtype=float32, numpy=
+array([[20.1     , 53.68625 ],
+       [22.2     , 60.12511 ],
+       [22.7     , 58.93714 ],
+       [23.3     , 60.65312 ],
+       [24.4     , 64.45385 ],
+       [25.1     , 66.9807  ],
+       [26.2     , 67.960144],
+       [27.3     , 70.73565 ],
+       [28.4     , 72.87779 ],
+       [30.4     , 77.54677 ]], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="s1">'.'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mf">10.2</span><span class="o">+</span><span class="mf">2.2</span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="s1">'--'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&lt;matplotlib.lines.Line2D at 0x1a1b1b0d340&gt;]</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>파란색 점: 데이터, 주황색 점선: 법칙</li>
+<li>위 그림을 보니 $x$와 $y$가 선형관계가 있는 것처럼 보인다. 즉 아래의 식을 만족하는 $\beta_0, \beta_1$가 있을 것 같다.</li>
+<li>$y_{i} \approx \beta_1 x_{i}+\beta_0$</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10, 2), dtype=float32, numpy=
+array([[20.1     , 53.68625 ],
+       [22.2     , 60.12511 ],
+       [22.7     , 58.93714 ],
+       [23.3     , 60.65312 ],
+       [24.4     , 64.45385 ],
+       [25.1     , 66.9807  ],
+       [26.2     , 67.960144],
+       [27.3     , 70.73565 ],
+       [28.4     , 72.87779 ],
+       [30.4     , 77.54677 ]], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 점원 A는 $\beta_0=15, \beta_1=2$일 것이라고 주장하였고 점원 B는 $\beta_0=15.5, \beta_1=2$일 것이라고 주장하였다.</p>
+<ul>
+<li>점원 A: $(\beta_0, \beta_1)$ = $(15,2)$ </li>
+<li>점원 B: $(\beta_0, \beta_1)$ = $(15.5,2)$</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="잔차제곱합">
+<a class="anchor" href="#%EC%9E%94%EC%B0%A8%EC%A0%9C%EA%B3%B1%ED%95%A9" aria-hidden="true"><span class="octicon octicon-link"></span></a>잔차제곱합<a class="anchor-link" href="#%EC%9E%94%EC%B0%A8%EC%A0%9C%EA%B3%B1%ED%95%A9"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> $y_{i} \approx \beta_0 + \beta_1$을 최소로 하는 $(\beta_0,\beta_1)$을 찾아보자</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 잔체제곱합을 통한 점원 A, 점원 B 추정치 비교</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mf">20.1</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">15</span><span class="p">,</span> <span class="mf">53.68625</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(55.2, 53.68625)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mf">22.2</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">15</span><span class="p">,</span> <span class="mf">60.12511</span>  
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(59.4, 60.12511)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mf">20.1</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">15.5</span><span class="p">,</span> <span class="mf">53.68625</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(55.7, 53.68625)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="mf">22.2</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="mf">15.5</span><span class="p">,</span> <span class="mf">60.12511</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(59.9, 60.12511)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>$i=1$일 때 점원 A의 주장이 더 잘 맞고 $i=2$일 때 점원 B의 주장이 더 잘 맞는다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> for 문을 사용하여 $\sum_{i=1}^{10} (y_i -\beta_0 -\beta_1 x_i)^2$를 계산하여 비교해보자</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sum1</span><span class="o">=</span><span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">sum1</span><span class="o">=</span><span class="n">sum1</span><span class="o">+</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mi">15</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sum2</span><span class="o">=</span><span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">sum2</span><span class="o">=</span><span class="n">sum2</span><span class="o">+</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="mf">15.5</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sum1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=float32, numpy=15.268475&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sum2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=float32, numpy=14.011955&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>점원 B의 추정치의 잔차제곱합이 조금 더 작다 $\to$ 점원 B의 주장이 더 적합하다   </li>
+<li>이 과정을 반복하면 최적의 추정치를 계산해낼 수 있을 것 같다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 그러나 현실적으로 구현하기 어렵다</p>
+<p>: 왜냐하면 잔차제곱합이 0이 되지 않는다면, 무엇이 최적의 추정치인지 알 수 없다. 잔차제곱합이 0이 아니라면 항상 더 적합한 추정치가 있을 수도 있기 때문</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 수식을 활용하여 찾아볼 수 있다</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\sum_{i=1}^{10} (y_i -\beta_0 -\beta_1 x_i)^2$를 최소화하는 $\beta_0, \beta_1$을 찾으면 되는데, 이는 아래와 같이 $\beta_0, \beta_1$으로 각각 편미분하여 연립하여 풀면 된다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\begin{cases}
+\frac{\partial}{\partial \beta_0}\sum_{i=1}^{10} (y_i -\beta_0 -\beta_1 x_i)^2=0 \\ 
+\frac{\partial}{\partial \beta_1}\sum_{i=1}^{10} (y_i -\beta_0 -\beta_1 x_i)^2=0
+\end{cases}$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>위 연립방정식을 편미분하면 다음과 같이 된다.</p>
+<p>$\begin{cases}
+\sum_{i=1}^{10} -2(y_i -\beta_0 -\beta_1 x_i)=0 \\ 
+\sum_{i=1}^{10} -2x_i(y_i -\beta_0 -\beta_1 x_i)=0
+\end{cases}$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>이를 정리하면</p>
+<p>
+$$\hat{\beta}_0= \bar{y}-\hat{\beta}_1 \bar{x}$$
+</p>
+<p>
+$$\hat{\beta}_1= \frac{S_{xy}}{S_{xx}}=\frac{\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})}{\sum_{i=1}^{n}(x_i-\bar{x})^2}$$
+</p>
+<p>최적의 추정치$(\hat{\beta}_0,\hat{\beta}_1)$를 구할 수 있고 이를 통해 추세선을 그려볼 수 있다</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 추정치는 다음과 같이 구할 수 있다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Sxx</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">Sxx</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=float32, numpy=87.84898&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Sxy</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+<span class="n">Sxy</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=float32, numpy=202.18872&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta_1_est</span> <span class="o">=</span> <span class="n">Sxy</span><span class="o">/</span><span class="n">Sxx</span>
+<span class="n">beta_1_est</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=float32, numpy=2.3015487&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta_0_est</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">beta_1_est</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">beta_0_est</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=float32, numpy=7.8339195&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 그림을 그려보자</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="s1">'.'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">beta_0_est</span> <span class="o">+</span> <span class="n">beta_1_est</span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="s1">'--'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mf">10.2</span><span class="o">+</span><span class="mf">2.2</span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="s1">'--'</span><span class="p">)</span> <span class="c1"># 세상의 법칙</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&lt;matplotlib.lines.Line2D at 0x1a1b1b5cee0&gt;]</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 샘플수가 커질수록 주황색 선은 점점 초록색 선과 유사해진다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이는 매우 좋은 접근법이지만, 확장성이 떨어진다는 치명적 단점이 있다</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 매트릭스를 통해 확장성을 개선할 수 있다</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="모형의-매트릭스화">
+<a class="anchor" href="#%EB%AA%A8%ED%98%95%EC%9D%98-%EB%A7%A4%ED%8A%B8%EB%A6%AD%EC%8A%A4%ED%99%94" aria-hidden="true"><span class="octicon octicon-link"></span></a>모형의 매트릭스화<a class="anchor-link" href="#%EB%AA%A8%ED%98%95%EC%9D%98-%EB%A7%A4%ED%8A%B8%EB%A6%AD%EC%8A%A4%ED%99%94"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 우리의 모형</p>
+<p>$y_i = \beta_0 + \beta_1 x_i + \epsilon_i, \quad i=1,2,\dots,10$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>이를 풀어서 쓰면</p>
+<p>$\begin{cases}
+y_1 = \beta_0 +\beta_1 x_1 + \epsilon_1 \\ 
+y_2 = \beta_0 +\beta_1 x_2 + \epsilon_2 \\ 
+\dots \\ 
+y_{10} = \beta_0 +\beta_1 x_{10} + \epsilon_{10} 
+\end{cases}$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>아래와 같다.</p>
+<p>$\begin{bmatrix} 
+y_1 \\ 
+y_2 \\ 
+\dots \\
+y_{10} 
+\end{bmatrix} 
+= \begin{bmatrix} 
+1 &amp; x_1 \\ 
+1 &amp; x_2 \\ 
+\dots &amp; \dots \\
+1 &amp; x_{10} 
+\end{bmatrix}\begin{bmatrix}\beta_0 \\ \beta_1 \end{bmatrix} + \begin{bmatrix} 
+\epsilon_1 \\ 
+\epsilon_2 \\ 
+\dots \\
+\epsilon_{10} 
+\end{bmatrix} $</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>벡터와 매트릭스 형태로 표현하면</p>
+<p>${\bf y} = {\bf X} {\boldsymbol \beta} + \boldsymbol{\epsilon}$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 손실함수의 매트릭스화</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$loss=\sum_{i=1}^{n}(y_i-\beta_0-\beta_1x_i)^2$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>이를 벡터로 표현하면,</p>
+<p>$loss=({\bf y}-{\bf X}{\boldsymbol \beta})^\top({\bf y}-{\bf X}{\boldsymbol \beta})={\bf y}^\top {\bf y} - {\bf y}^\top {\bf X}{\boldsymbol\beta} - {\boldsymbol\beta}^\top {\bf X}^\top {\bf y} + {\boldsymbol\beta}^\top {\bf X}^\top {\bf X} {\boldsymbol\beta}$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 미분하는 과정의 매트릭스화</p>
+<p>loss를 최소화하는 ${\boldsymbol \beta}$를 구해야하므로 loss를 ${\boldsymbol \beta}$로 미분한식을 0이라고 놓고 풀면 된다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\frac{\partial}{\partial \boldsymbol{\beta}} loss = \frac{\partial}{\partial \boldsymbol{\beta}} {\bf y}^\top {\bf y} - \frac{\partial}{\partial \boldsymbol{\beta}} {\bf y}^\top {\bf X}{\boldsymbol\beta} - \frac{\partial}{\partial \boldsymbol{\beta}} {\boldsymbol\beta}^\top {\bf X}^\top {\bf y} + \frac{\partial}{\partial \boldsymbol{\beta}} {\boldsymbol\beta}^\top {\bf X}^\top {\bf X} {\boldsymbol\beta}$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$= 0 - {\bf X}^\top {\bf y}- {\bf X}^\top {\bf y} + 2{\bf X}^\top {\bf X} = - 2{\bf X}^\top {\bf y} + 2{\bf X}^\top {\bf X}{\boldsymbol\beta} $</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>따라서 $\frac{\partial}{\partial \boldsymbol{\beta}}loss=0$을 풀면 아래와 같다.</p>
+<p>$ 2{\bf X}^\top {\bf y} = 2{\bf X}^\top {\bf X}{\boldsymbol\beta}$</p>
+<p>$ {\bf X}^\top {\bf X}{\boldsymbol\beta} = {\bf X}^\top {\bf y}$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\boldsymbol{\hat\beta}= ({\bf X}^\top {\bf X})^{-1}{\bf X}^\top {\bf y} $</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 적용</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mf">20.1</span><span class="p">,</span><span class="mf">22.2</span><span class="p">,</span><span class="mf">22.7</span><span class="p">,</span><span class="mf">23.3</span><span class="p">,</span><span class="mf">24.4</span><span class="p">,</span><span class="mf">25.1</span><span class="p">,</span><span class="mf">26.2</span><span class="p">,</span><span class="mf">27.3</span><span class="p">,</span><span class="mf">28.4</span><span class="p">,</span><span class="mf">30.4</span><span class="p">])</span>
+<span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10,), dtype=float32, numpy=
+array([20.1, 22.2, 22.7, 23.3, 24.4, 25.1, 26.2, 27.3, 28.4, 30.4],
+      dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">50000</span><span class="p">)</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">([</span><span class="mi">10</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mf">10.2</span> <span class="o">+</span> <span class="mf">2.2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">epsilon</span>
+<span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10,), dtype=float32, numpy=
+array([53.68625 , 60.12511 , 58.93714 , 60.65312 , 64.45385 , 66.9807  ,
+       67.960144, 70.73565 , 72.87779 , 77.54677 ], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 방법 1</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([[[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="p">],[</span><span class="n">x</span><span class="p">]],</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(2, 10), dtype=int32, numpy=
+array([[ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1],
+       [20, 22, 22, 23, 24, 25, 26, 27, 28, 30]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([[[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="p">],[</span><span class="n">x</span><span class="p">]],</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">X</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10, 2), dtype=int32, numpy=
+array([[ 1, 20],
+       [ 1, 22],
+       [ 1, 22],
+       [ 1, 23],
+       [ 1, 24],
+       [ 1, 25],
+       [ 1, 26],
+       [ 1, 27],
+       [ 1, 28],
+       [ 1, 30]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 방법 2</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow.python.ops.numpy_ops</span> <span class="kn">import</span> <span class="n">np_config</span>
+<span class="n">np_config</span><span class="o">.</span><span class="n">enable_numpy_behavior</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([[[</span><span class="mf">1.0</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="p">],[</span><span class="n">x</span><span class="p">]],</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">X</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10, 2), dtype=float32, numpy=
+array([[ 1. , 20.1],
+       [ 1. , 22.2],
+       [ 1. , 22.7],
+       [ 1. , 23.3],
+       [ 1. , 24.4],
+       [ 1. , 25.1],
+       [ 1. , 26.2],
+       [ 1. , 27.3],
+       [ 1. , 28.4],
+       [ 1. , 30.4]], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\boldsymbol{\hat\beta}= ({\bf X}^\top {\bf X})^{-1}{\bf X}^\top {\bf y} $</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 깨알문법</p>
+<ol>
+<li>역행렬 <code>tf.linalg.inv</code>사용
+2.행렬 간 곱 <code>@</code> 사용</li>
+</ol>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">)</span> <span class="nd">@X</span><span class="o">.</span><span class="n">T</span> <span class="nd">@y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(2,), dtype=float32, numpy=array([7.834038 , 2.3015506], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta_0_est</span><span class="p">,</span> <span class="n">beta_1_est</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(&lt;tf.Tensor: shape=(), dtype=float32, numpy=7.8339195&gt;,
+ &lt;tf.Tensor: shape=(), dtype=float32, numpy=2.3015487&gt;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>그런데 값이 다르다...?</p>
+</li>
+<li>
+<p>이유는 텐서플로우가 효율적 계산을 위해 조금 대충 계산하기 때문</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 텐서플로우 내에 내장되어 있는 텐서플로우용 넘파이를 이용하여 다시 계산해보자</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow.experimental.numpy</span> <span class="k">as</span> <span class="nn">tnp</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="mf">20.1</span><span class="p">,</span><span class="mf">22.2</span><span class="p">,</span><span class="mf">22.7</span><span class="p">,</span><span class="mf">23.3</span><span class="p">,</span><span class="mf">24.4</span><span class="p">,</span><span class="mf">25.1</span><span class="p">,</span><span class="mf">26.2</span><span class="p">,</span><span class="mf">27.3</span><span class="p">,</span><span class="mf">28.4</span><span class="p">,</span><span class="mf">30.4</span><span class="p">])</span>
+<span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10,), dtype=float32, numpy=
+array([20.1, 22.2, 22.7, 23.3, 24.4, 25.1, 26.2, 27.3, 28.4, 30.4],
+      dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mf">10.2</span> <span class="o">+</span> <span class="mf">2.2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">epsilon</span>
+<span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10,), dtype=float32, numpy=
+array([53.68625 , 60.12511 , 58.93714 , 60.65312 , 64.45385 , 66.9807  ,
+       67.960144, 70.73565 , 72.87779 , 77.54677 ], dtype=float32)&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 공식을 이용한 풀이</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta1_est</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="c1">## Sxy/Sxx</span>
+<span class="n">beta0_est</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">beta1_est</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta0_est</span><span class="p">,</span> <span class="n">beta1_est</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(&lt;tf.Tensor: shape=(), dtype=float32, numpy=7.8339195&gt;,
+ &lt;tf.Tensor: shape=(), dtype=float32, numpy=2.3015487&gt;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 벡터를 이용한 풀이</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">tnp</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([[</span><span class="n">tnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="p">)],[</span><span class="n">x</span><span class="p">]],</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">X</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10, 2), dtype=float64, numpy=
+array([[ 1.        , 20.10000038],
+       [ 1.        , 22.20000076],
+       [ 1.        , 22.70000076],
+       [ 1.        , 23.29999924],
+       [ 1.        , 24.39999962],
+       [ 1.        , 25.10000038],
+       [ 1.        , 26.20000076],
+       [ 1.        , 27.29999924],
+       [ 1.        , 28.39999962],
+       [ 1.        , 30.39999962]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">X</span><span class="p">)</span> <span class="nd">@X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(2,), dtype=float64, numpy=array([7.83391429, 2.30154889])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>거의 유사한 값이 나온다</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="결론">
+<a class="anchor" href="#%EA%B2%B0%EB%A1%A0" aria-hidden="true"><span class="octicon octicon-link"></span></a>결론<a class="anchor-link" href="#%EA%B2%B0%EB%A1%A0"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>벡터를 이용하여 <code>tf.linalg.inv(X.T @ X) @X.T @ y</code>를 계산하면 바로 $\beta$값이 바로 나온다.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="ki5n2/charcoal"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/charcoal/2022/03/16/DS.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/charcoal/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/charcoal/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/charcoal/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/ki5n2" target="_blank" title="ki5n2"><svg class="svg-icon grey"><use xlink:href="/charcoal/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" target="_blank" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/charcoal/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
