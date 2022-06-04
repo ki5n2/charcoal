@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>DS 4. 미분, 경사하강법 | kione</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="DS 4. 미분, 경사하강법" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="작성완료" />
+<meta property="og:description" content="작성완료" />
+<link rel="canonical" href="https://ki5n2.github.io/charcoal/2022/03/23/DS.html" />
+<meta property="og:url" content="https://ki5n2.github.io/charcoal/2022/03/23/DS.html" />
+<meta property="og:site_name" content="kione" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-03-23T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="DS 4. 미분, 경사하강법" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-03-23T00:00:00-05:00","datePublished":"2022-03-23T00:00:00-05:00","description":"작성완료","headline":"DS 4. 미분, 경사하강법","mainEntityOfPage":{"@type":"WebPage","@id":"https://ki5n2.github.io/charcoal/2022/03/23/DS.html"},"url":"https://ki5n2.github.io/charcoal/2022/03/23/DS.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/charcoal/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ki5n2.github.io/charcoal/feed.xml" title="kione" /><link rel="shortcut icon" type="image/x-icon" href="/charcoal/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/charcoal/">kione</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/charcoal/about/">About Me</a><a class="page-link" href="/charcoal/search/">Search</a><a class="page-link" href="/charcoal/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">DS 4. 미분, 경사하강법</h1><p class="page-description">작성완료</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-03-23T00:00:00-05:00" itemprop="datePublished">
+        Mar 23, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      6 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/ki5n2/charcoal/tree/master/_notebooks/2022-03-23-DS.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/charcoal/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/ki5n2/charcoal/master?filepath=_notebooks%2F2022-03-23-DS.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/charcoal/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/ki5n2/charcoal/blob/master/_notebooks/2022-03-23-DS.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/charcoal/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Fki5n2%2Fcharcoal%2Fblob%2Fmaster%2F_notebooks%2F2022-03-23-DS.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/charcoal/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Data-Science">Data Science </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#미분">미분 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#tf.GradientTape()">tf.GradientTape() </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#카페예제">카페예제 </a></li>
+<li class="toc-entry toc-h4"><a href="#복습">복습 </a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#경사하강법">경사하강법 </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#최적화문제">최적화문제 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#방법-1:-grid-search">방법 1: grid search </a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#그리드서치의-문제점">그리드서치의 문제점 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h4"><a href="#추가학습">추가학습 </a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-03-23-DS.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="Data-Science">
+<a class="anchor" href="#Data-Science" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Science<a class="anchor-link" href="#Data-Science"> </a>
+</h1>
+<ul>
+<li>lenture: Data Science_4-1nd week of lectures.</li>
+<li>lenture date: 2022-03-23</li>
+<li>lecturer: Guebin choi</li>
+<li>study date: 2022-03-23</li>
+<li>author: Kione kim</li>
+</ul>
+<hr>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow.experimental.numpy</span> <span class="k">as</span> <span class="nn">tnp</span>   <span class="c1"># tnp를 사용하면 넘파이에 익숙한 문법을 모두 쓸 수 있음</span>
+<span class="n">tnp</span><span class="o">.</span><span class="n">experimental_enable_numpy_behavior</span><span class="p">()</span>   <span class="c1"># 기존에 생성된 tf.constant 자료형은 넘파이와 유사하게 동작한다. </span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="미분">
+<a class="anchor" href="#%EB%AF%B8%EB%B6%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>미분<a class="anchor-link" href="#%EB%AF%B8%EB%B6%84"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="tf.GradientTape()">
+<a class="anchor" href="#tf.GradientTape()" aria-hidden="true"><span class="octicon octicon-link"></span></a>tf.GradientTape()<a class="anchor-link" href="#tf.GradientTape()"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="카페예제">
+<a class="anchor" href="#%EC%B9%B4%ED%8E%98%EC%98%88%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>카페예제<a class="anchor-link" href="#%EC%B9%B4%ED%8E%98%EC%98%88%EC%A0%9C"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> $x,y$ 선언</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">tnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">20.1</span><span class="p">,</span><span class="mf">22.2</span><span class="p">,</span><span class="mf">22.7</span><span class="p">,</span><span class="mf">23.3</span><span class="p">,</span><span class="mf">24.4</span><span class="p">,</span><span class="mf">25.1</span><span class="p">,</span><span class="mf">26.2</span><span class="p">,</span><span class="mf">27.3</span><span class="p">,</span><span class="mf">28.4</span><span class="p">,</span><span class="mf">30.4</span><span class="p">])</span>
+<span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10,), dtype=float64, numpy=array([20.1, 22.2, 22.7, 23.3, 24.4, 25.1, 26.2, 27.3, 28.4, 30.4])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">50000</span><span class="p">)</span>
+<span class="n">y</span><span class="o">=</span><span class="mf">10.2</span><span class="o">+</span> <span class="mf">2.2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span> <span class="n">tnp</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10,), dtype=float64, numpy=
+array([53.12550628, 59.48221878, 61.86480622, 64.06900254, 63.52340823,
+       62.85870759, 67.29683042, 69.54750897, 72.283444  , 76.08682149])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 임의의 $β_0, β_1$ 값 설정</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta0</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([</span><span class="mf">9.0</span><span class="p">])</span>
+<span class="n">beta1</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([</span><span class="mf">2.0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> with문</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">(</span><span class="n">persistent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">mytape</span><span class="p">:</span>
+    <span class="n">loss</span><span class="o">=</span><span class="nb">sum</span><span class="p">((</span><span class="n">y</span><span class="o">-</span><span class="n">beta0</span><span class="o">-</span><span class="n">beta1</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">mytape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span><span class="n">beta0</span><span class="p">),</span> <span class="n">mytape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span><span class="n">beta1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(&lt;tf.Tensor: shape=(1,), dtype=float32, numpy=array([-119.87651], dtype=float32)&gt;,
+ &lt;tf.Tensor: shape=(1,), dtype=float32, numpy=array([-3008.6094], dtype=float32)&gt;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>
+<p>loss(잔차제곱합)를 β_0, β_1 각각에 대해 미분하여 대입한 값을 보았더니 0과는 거리가 멀다. 더 나은 직선이 많을 것 같다.</p>
+</li>
+<li>
+<p>다른 베타값에 대한 미분값을 살펴보고 싶은데 위의 코드처럼 각각을 적용하는 것은 확장성이 떨어진다.</p>
+</li>
+<li>
+<p>매트릭스 미분을 활용해보자!</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 매트릭스를 활용한 계산</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="복습">
+<a class="anchor" href="#%EB%B3%B5%EC%8A%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>복습<a class="anchor-link" href="#%EB%B3%B5%EC%8A%B5"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 모형의 매트릭스화</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 우리의 모형</p>
+<p>$y_i = \beta_0 + \beta_1 x_i + \epsilon_i, \quad i=1,2,\dots,10$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>이를 풀어서 쓰면</p>
+<p>$\begin{cases}
+y_1 = \beta_0 +\beta_1 x_1 + \epsilon_1 \\ 
+y_2 = \beta_0 +\beta_1 x_2 + \epsilon_2 \\ 
+\dots \\ 
+y_{10} = \beta_0 +\beta_1 x_{10} + \epsilon_{10} 
+\end{cases}$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>아래와 같다.</p>
+<p>$\begin{bmatrix} 
+y_1 \\ 
+y_2 \\ 
+\dots \\
+y_{10} 
+\end{bmatrix} 
+= \begin{bmatrix} 
+1 &amp; x_1 \\ 
+1 &amp; x_2 \\ 
+\dots &amp; \dots \\
+1 &amp; x_{10} 
+\end{bmatrix}\begin{bmatrix}\beta_0 \\ \beta_1 \end{bmatrix} + \begin{bmatrix} 
+\epsilon_1 \\ 
+\epsilon_2 \\ 
+\dots \\
+\epsilon_{10} 
+\end{bmatrix} $</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>벡터와 매트릭스 형태로 표현하면</p>
+<p>${\bf y} = {\bf X} {\boldsymbol \beta} + \boldsymbol{\epsilon}$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 손실함수의 매트릭스화</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$loss=\sum_{i=1}^{n}(y_i-\beta_0-\beta_1x_i)^2$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>이를 벡터로 표현하면,</p>
+<p>$loss=({\bf y}-{\bf X}{\boldsymbol \beta})^\top({\bf y}-{\bf X}{\boldsymbol \beta})={\bf y}^\top {\bf y} - {\bf y}^\top {\bf X}{\boldsymbol\beta} - {\boldsymbol\beta}^\top {\bf X}^\top {\bf y} + {\boldsymbol\beta}^\top {\bf X}^\top {\bf X} {\boldsymbol\beta}$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 미분하는 과정의 매트릭스화</p>
+<p>loss를 최소화하는 ${\boldsymbol \beta}$를 구해야하므로 loss를 ${\boldsymbol \beta}$로 미분한식을 0이라고 놓고 풀면 된다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\frac{\partial}{\partial \boldsymbol{\beta}} loss = \frac{\partial}{\partial \boldsymbol{\beta}} {\bf y}^\top {\bf y} - \frac{\partial}{\partial \boldsymbol{\beta}} {\bf y}^\top {\bf X}{\boldsymbol\beta} - \frac{\partial}{\partial \boldsymbol{\beta}} {\boldsymbol\beta}^\top {\bf X}^\top {\bf y} + \frac{\partial}{\partial \boldsymbol{\beta}} {\boldsymbol\beta}^\top {\bf X}^\top {\bf X} {\boldsymbol\beta}$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$= 0 - {\bf X}^\top {\bf y}- {\bf X}^\top {\bf y} + 2{\bf X}^\top {\bf X}{\boldsymbol\beta} $</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>따라서 $\frac{\partial}{\partial \boldsymbol{\beta}}loss=0$을 풀면 아래와 같다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\boldsymbol{\hat\beta}= ({\bf X}^\top {\bf X})^{-1}{\bf X}^\top {\bf y} $</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 매트릭스로 $x,y$ 선언</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span> <span class="o">+</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span> <span class="o">+</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10, 2), dtype=int32, numpy=
+array([[1, 2],
+       [1, 2],
+       [1, 2],
+       [1, 2],
+       [1, 2],
+       [1, 2],
+       [1, 2],
+       [1, 2],
+       [1, 2],
+       [1, 2]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">tnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span> <span class="o">+</span> <span class="p">[</span><span class="mf">20.1</span><span class="p">,</span><span class="mf">22.2</span><span class="p">,</span><span class="mf">22.7</span><span class="p">,</span><span class="mf">23.3</span><span class="p">,</span><span class="mf">24.4</span><span class="p">,</span><span class="mf">25.1</span><span class="p">,</span><span class="mf">26.2</span><span class="p">,</span><span class="mf">27.3</span><span class="p">,</span><span class="mf">28.4</span><span class="p">,</span><span class="mf">30.4</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10, 2), dtype=float64, numpy=
+array([[ 1. , 20.1],
+       [ 1. , 22.2],
+       [ 1. , 22.7],
+       [ 1. , 23.3],
+       [ 1. , 24.4],
+       [ 1. , 25.1],
+       [ 1. , 26.2],
+       [ 1. , 27.3],
+       [ 1. , 28.4],
+       [ 1. , 30.4]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta_true</span><span class="o">=</span> <span class="n">tnp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">10.2</span><span class="p">,</span><span class="mf">2.2</span><span class="p">]])</span>
+<span class="n">beta_true</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(1, 2), dtype=float64, numpy=array([[10.2,  2.2]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="nd">@beta_true</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">ValueError</span>                                Traceback (most recent call last)
+Input <span class="ansi-green-intense-fg ansi-bold">In [72]</span>, in <span class="ansi-cyan-fg">&lt;cell line: 1&gt;</span><span class="ansi-blue-intense-fg ansi-bold">()</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span> <span class="ansi-yellow-bg">x</span><span class="ansi-yellow-bg" style="color: rgb(175,0,255)">@beta_true</span>
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\ds2022\lib\site-packages\tensorflow\python\util\traceback_utils.py:153</span>, in <span class="ansi-cyan-fg">filter_traceback.&lt;locals&gt;.error_handler</span><span class="ansi-blue-intense-fg ansi-bold">(*args, **kwargs)</span>
+<span class="ansi-green-fg">    151</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> <span class="ansi-bold" style="color: rgb(215,95,95)">Exception</span> <span class="ansi-bold" style="color: rgb(0,135,0)">as</span> e:
+<span class="ansi-green-fg">    152</span>   filtered_tb <span style="color: rgb(98,98,98)">=</span> _process_traceback_frames(e<span style="color: rgb(98,98,98)">.</span>__traceback__)
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 153</span>   <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> e<span style="color: rgb(98,98,98)">.</span>with_traceback(filtered_tb) <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-fg">    154</span> <span class="ansi-bold" style="color: rgb(0,135,0)">finally</span>:
+<span class="ansi-green-fg">    155</span>   <span class="ansi-bold" style="color: rgb(0,135,0)">del</span> filtered_tb
+
+File <span class="ansi-green-intense-fg ansi-bold">~\anaconda3\envs\ds2022\lib\site-packages\six.py:718</span>, in <span class="ansi-cyan-fg">reraise</span><span class="ansi-blue-intense-fg ansi-bold">(tp, value, tb)</span>
+<span class="ansi-green-fg">    716</span>         value <span style="color: rgb(98,98,98)">=</span> tp()
+<span class="ansi-green-fg">    717</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> value<span style="color: rgb(98,98,98)">.</span>__traceback__ <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> tb:
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 718</span>         <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> value<span style="color: rgb(98,98,98)">.</span>with_traceback(tb)
+<span class="ansi-green-fg">    719</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> value
+<span class="ansi-green-fg">    720</span> <span class="ansi-bold" style="color: rgb(0,135,0)">finally</span>:
+
+<span class="ansi-red-intense-fg ansi-bold">ValueError</span>: Matrix size-incompatible: In[0]: [10,2], In[1]: [1,2] [Op:MatMul]</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>메트릭스 선언을 잘못하면 오류가 남..! 잘못된 계산</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta_true</span><span class="o">=</span> <span class="n">tnp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">10.2</span><span class="p">],[</span><span class="mf">2.2</span><span class="p">]])</span>
+<span class="n">beta_true</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(2, 1), dtype=float64, numpy=
+array([[10.2],
+       [ 2.2]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>matrix 선언이 중요함,,</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="nd">@beta_true</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10, 1), dtype=float64, numpy=
+array([[54.42],
+       [59.04],
+       [60.14],
+       [61.46],
+       [63.88],
+       [65.42],
+       [67.84],
+       [70.26],
+       [72.68],
+       [77.08]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tnp</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">50000</span><span class="p">)</span>
+<span class="n">y</span><span class="o">=</span><span class="n">x</span><span class="nd">@beta_true</span> <span class="o">+</span> <span class="n">tnp</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(10, 1), dtype=float64, numpy=
+array([[53.12550628],
+       [59.48221878],
+       [61.86480622],
+       [64.06900254],
+       [63.52340823],
+       [62.85870759],
+       [67.29683042],
+       [69.54750897],
+       [72.283444  ],
+       [76.08682149]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 미분하고 싶은 $β$값 정의</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta</span><span class="o">=</span> <span class="n">tnp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">9.0</span><span class="p">],[</span><span class="mf">2.0</span><span class="p">]])</span>
+<span class="n">beta</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(2, 1), dtype=float64, numpy=
+array([[9.],
+       [2.]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> with문</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">mytape</span><span class="p">:</span>
+    <span class="n">loss</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">x</span><span class="nd">@beta</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">x</span><span class="nd">@beta</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mytape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span><span class="n">beta</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>β가 tf.constant로 정의되었기 때문에 계산결과 Nan이 되었다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">mytape</span><span class="p">:</span>
+    <span class="n">mytape</span><span class="o">.</span><span class="n">watch</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">x</span><span class="nd">@beta</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">x</span><span class="nd">@beta</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mytape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span><span class="n">beta</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(2, 1), dtype=float64, numpy=
+array([[ -119.87650904],
+       [-3008.60929929]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>앞서 직접 구한 값과 동일하게 나왔다</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 다음과 같이 변환하여 보다 직관적으로 표현할 수 있다.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta</span><span class="o">=</span> <span class="n">tnp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">9.0</span><span class="p">],[</span><span class="mf">2.0</span><span class="p">]])</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">(</span><span class="n">persistent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">mytape</span><span class="p">:</span>
+    <span class="n">mytape</span><span class="o">.</span><span class="n">watch</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
+    <span class="n">yhat</span><span class="o">=</span><span class="n">x</span><span class="nd">@beta</span> <span class="c1"># yhat- 추정치</span>
+    <span class="n">loss</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">yhat</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">yhat</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mytape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span><span class="n">beta</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(2, 1), dtype=float64, numpy=
+array([[ -119.87650904],
+       [-3008.60929929]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">mytape</span><span class="p">:</span>
+    <span class="n">mytape</span><span class="o">.</span><span class="n">watch</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span>
+    <span class="n">yhat</span><span class="o">=</span><span class="n">x</span><span class="nd">@beta</span> <span class="c1"># yhat- 추정치</span>
+    <span class="n">loss</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">yhat</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">yhat</span><span class="p">)</span>
+    <span class="o">...</span>
+    <span class="o">...</span>
+    <span class="o">...</span>
+    <span class="n">등등</span>
+
+<span class="p">:</span> <span class="n">계속해서</span> <span class="n">선형변환</span><span class="p">,</span> <span class="n">비선형변환</span> <span class="n">등등을</span> <span class="n">추가하여</span> <span class="n">계산할</span> <span class="n">수</span> <span class="n">있어</span> <span class="n">매우</span> <span class="n">편리하다고</span> <span class="n">한다</span><span class="o">...</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 이론적 풀이</p>
+<p>$loss'(\beta)= - {2\bf X}' {\bf y} + 2{\bf X}' {\bf X}{\boldsymbol\beta} $</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span> <span class="o">@</span> <span class="n">beta</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(2, 1), dtype=float64, numpy=
+array([[ -119.87650904],
+       [-3008.60929929]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 이론적인 $β$의 최적값을 찾아보고 (즉 $\hat\beta$을 찾고) 그 지점에서 loss의 미분값(=접선의 기울기)을 구하라. 결과가 0인지 확인하라. 단 0은 길이가 2이고 각 원소가 0인 벡터이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\boldsymbol{\hat\beta}= ({\bf X}^\top {\bf X})^{-1}{\bf X}^\top {\bf y} $</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bhat</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span> <span class="o">@</span> <span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y</span> <span class="c1"># tf.linalg.inv()는 역행렬 구하는 기능</span>
+<span class="n">bhat</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(2, 1), dtype=float64, numpy=
+array([[13.49949892],
+       [ 2.05974916]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>앞서 구한 것보다 매우 근접한 값이 나왔다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">(</span><span class="n">persistent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">mytape</span><span class="p">:</span>
+    <span class="n">mytape</span><span class="o">.</span><span class="n">watch</span><span class="p">(</span><span class="n">bhat</span><span class="p">)</span>
+    <span class="n">yhat</span><span class="o">=</span> <span class="n">x</span><span class="nd">@bhat</span>
+    <span class="n">loss</span><span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">yhat</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">yhat</span><span class="p">)</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mytape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span><span class="n">bhat</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(2, 1), dtype=float64, numpy=
+array([[-1.87583282e-12],
+       [-4.64863703e-11]])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>bhat에서 접선의 기울기는 0과 매우 가까운 값이 계산되었다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="경사하강법">
+<a class="anchor" href="#%EA%B2%BD%EC%82%AC%ED%95%98%EA%B0%95%EB%B2%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>경사하강법<a class="anchor-link" href="#%EA%B2%BD%EC%82%AC%ED%95%98%EA%B0%95%EB%B2%95"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="최적화문제">
+<a class="anchor" href="#%EC%B5%9C%EC%A0%81%ED%99%94%EB%AC%B8%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>최적화문제<a class="anchor-link" href="#%EC%B5%9C%EC%A0%81%ED%99%94%EB%AC%B8%EC%A0%9C"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> $loss= (\frac{1}{2}\beta -1)^2$를 최소로 하는 $\beta$를 컴퓨터를 통해 구하는 문제를 생각해보자. (답은 당연히 $\beta=2$)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="방법-1:-grid-search">
+<a class="anchor" href="#%EB%B0%A9%EB%B2%95-1:-grid-search" aria-hidden="true"><span class="octicon octicon-link"></span></a>방법 1: grid search<a class="anchor-link" href="#%EB%B0%A9%EB%B2%95-1:-grid-search"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div class="highlight"><pre><span></span><span class="n">알고리즘</span><span class="p">:</span>
+    <span class="n">step1</span><span class="p">:</span> <span class="n">beta를</span> <span class="n">적당한</span> <span class="n">범위</span> <span class="n">내</span> <span class="n">값들로</span> <span class="n">설정한다</span><span class="o">.</span>
+    <span class="n">step2</span><span class="p">:</span> <span class="n">각각의</span> <span class="n">범위</span> <span class="n">내</span> <span class="n">값들에</span> <span class="n">대한</span> <span class="n">loss를</span> <span class="n">계산한다</span><span class="o">.</span>
+    <span class="n">step3</span><span class="p">:</span> <span class="n">loss값들</span> <span class="n">중</span> <span class="n">가장</span> <span class="n">작은</span> <span class="n">beta</span> <span class="n">값을</span> <span class="n">찾는다</span><span class="o">.</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta</span><span class="o">=</span> <span class="n">tnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">loss</span><span class="o">=</span> <span class="p">(</span><span class="n">beta</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">loss</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(100,), dtype=float64, numpy=
+array([3.60000000e+01, 3.47980818e+01, 3.36165697e+01, 3.24554637e+01,
+       3.13147638e+01, 3.01944700e+01, 2.90945822e+01, 2.80151005e+01,
+       2.69560249e+01, 2.59173554e+01, 2.48990919e+01, 2.39012346e+01,
+       2.29237833e+01, 2.19667381e+01, 2.10300990e+01, 2.01138659e+01,
+       1.92180390e+01, 1.83426181e+01, 1.74876033e+01, 1.66529946e+01,
+       1.58387920e+01, 1.50449954e+01, 1.42716049e+01, 1.35186205e+01,
+       1.27860422e+01, 1.20738700e+01, 1.13821039e+01, 1.07107438e+01,
+       1.00597898e+01, 9.42924191e+00, 8.81910009e+00, 8.22936435e+00,
+       7.66003469e+00, 7.11111111e+00, 6.58259361e+00, 6.07448220e+00,
+       5.58677686e+00, 5.11947760e+00, 4.67258443e+00, 4.24609734e+00,
+       3.84001632e+00, 3.45434139e+00, 3.08907254e+00, 2.74420977e+00,
+       2.41975309e+00, 2.11570248e+00, 1.83205795e+00, 1.56881951e+00,
+       1.32598714e+00, 1.10356086e+00, 9.01540659e-01, 7.19926538e-01,
+       5.58718498e-01, 4.17916539e-01, 2.97520661e-01, 1.97530864e-01,
+       1.17947148e-01, 5.87695133e-02, 1.99979594e-02, 1.63248648e-03,
+       3.67309458e-03, 2.61197837e-02, 6.89725538e-02, 1.32231405e-01,
+       2.15896337e-01, 3.19967350e-01, 4.44444444e-01, 5.89327620e-01,
+       7.54616876e-01, 9.40312213e-01, 1.14641363e+00, 1.37292113e+00,
+       1.61983471e+00, 1.88715437e+00, 2.17488011e+00, 2.48301194e+00,
+       2.81154984e+00, 3.16049383e+00, 3.52984389e+00, 3.91960004e+00,
+       4.32976227e+00, 4.76033058e+00, 5.21130497e+00, 5.68268544e+00,
+       6.17447199e+00, 6.68666463e+00, 7.21926334e+00, 7.77226814e+00,
+       8.34567901e+00, 8.93949597e+00, 9.55371901e+00, 1.01883481e+01,
+       1.08433833e+01, 1.15188246e+01, 1.22146720e+01, 1.29309254e+01,
+       1.36675849e+01, 1.44246505e+01, 1.52021222e+01, 1.60000000e+01])&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 가장 작은 값을 찾는 함수 <code>tf.argmin()</code>이용</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">argmin</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=int64, numpy=3&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>가장 작은 값이 있는 인덱스를 출력해준다</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=int64, numpy=59&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta</span><span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">loss</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=float64, numpy=1.9191919191919187&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta</span><span class="p">[</span><span class="mi">59</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=float64, numpy=1.9191919191919187&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이론적 값인 2와 근접한 값이 나왔음</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta</span><span class="p">[</span><span class="mi">60</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=float64, numpy=2.121212121212121&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta</span><span class="p">[</span><span class="mi">58</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=float64, numpy=1.7171717171717162&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">loss</span><span class="p">[</span><span class="mi">59</span><span class="p">],</span> <span class="n">loss</span><span class="p">[</span><span class="mi">60</span><span class="p">],</span> <span class="n">loss</span><span class="p">[</span><span class="mi">58</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(&lt;tf.Tensor: shape=(), dtype=float64, numpy=0.0016324864809713505&gt;,
+ &lt;tf.Tensor: shape=(), dtype=float64, numpy=0.0036730945821854847&gt;,
+ &lt;tf.Tensor: shape=(), dtype=float64, numpy=0.01999795939189892&gt;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>앞 뒤로 한 개씩 차이나는 인덱스에 대한 loss값을 계산한 결과를 보니, 59번째 인덱스의 loss가 가장 작은 것을 알 수 있다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h5 id="그리드서치의-문제점">
+<a class="anchor" href="#%EA%B7%B8%EB%A6%AC%EB%93%9C%EC%84%9C%EC%B9%98%EC%9D%98-%EB%AC%B8%EC%A0%9C%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>그리드서치의 문제점<a class="anchor-link" href="#%EA%B7%B8%EB%A6%AC%EB%93%9C%EC%84%9C%EC%B9%98%EC%9D%98-%EB%AC%B8%EC%A0%9C%EC%A0%90"> </a>
+</h5>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 문제1: local minimum</p>
+<ul>
+<li>지정한 범위 외에서 더 작은 loss값이 나올 수 있음. 즉, 지정한 범위 내에 global minimum이 존재한다는 보장이 없음</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 문제2: 효율적이지 않음</p>
+<ul>
+<li>모든 loss를 찾는 건 비효율적일 수 있음. 초반 또는 중간에 $loss=0$인 값을 찾았음에도 계산을 멈추지 않고 (더 이상 탐색할 필요가 없음에도) 끝까지 계산함</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="추가학습">
+<a class="anchor" href="#%EC%B6%94%EA%B0%80%ED%95%99%EC%8A%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>추가학습<a class="anchor-link" href="#%EC%B6%94%EA%B0%80%ED%95%99%EC%8A%B5"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 그리드서치를 이용하여 $(x-1)^2$을 최소화하는 $x$값을 구하여라.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta</span><span class="o">=</span> <span class="n">tnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">loss</span><span class="o">=</span> <span class="p">(</span><span class="n">beta</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=int64, numpy=599&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">beta</span><span class="p">[</span><span class="mi">599</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tf.Tensor: shape=(), dtype=float64, numpy=0.9959959959959956&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이론적인 값인 1과 근접한 값이 나왔다</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="ki5n2/charcoal"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/charcoal/2022/03/23/DS.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/charcoal/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/charcoal/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/charcoal/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/ki5n2" target="_blank" title="ki5n2"><svg class="svg-icon grey"><use xlink:href="/charcoal/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" target="_blank" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/charcoal/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
