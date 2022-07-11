@@ -1,0 +1,2346 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>DS 12. 로지스틱 모형-Activation function, Fashion_MNIST 다중분류 | ki5n2</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="DS 12. 로지스틱 모형-Activation function, Fashion_MNIST 다중분류" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="작성완료" />
+<meta property="og:description" content="작성완료" />
+<link rel="canonical" href="https://ki5n2.github.io/charcoal/2022/05/06/DS.html" />
+<meta property="og:url" content="https://ki5n2.github.io/charcoal/2022/05/06/DS.html" />
+<meta property="og:site_name" content="ki5n2" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-05-06T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="DS 12. 로지스틱 모형-Activation function, Fashion_MNIST 다중분류" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-05-06T00:00:00-05:00","datePublished":"2022-05-06T00:00:00-05:00","description":"작성완료","headline":"DS 12. 로지스틱 모형-Activation function, Fashion_MNIST 다중분류","mainEntityOfPage":{"@type":"WebPage","@id":"https://ki5n2.github.io/charcoal/2022/05/06/DS.html"},"url":"https://ki5n2.github.io/charcoal/2022/05/06/DS.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/charcoal/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://ki5n2.github.io/charcoal/feed.xml" title="ki5n2" /><link rel="shortcut icon" type="image/x-icon" href="/charcoal/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/charcoal/">ki5n2</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/charcoal/about/">About Me</a><a class="page-link" href="/charcoal/search/">Search</a><a class="page-link" href="/charcoal/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">DS 12. 로지스틱 모형-Activation function, Fashion_MNIST 다중분류</h1><p class="page-description">작성완료</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-05-06T00:00:00-05:00" itemprop="datePublished">
+        May 6, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      19 min read
+    
+</span></p>
+
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/ki5n2/charcoal/tree/master/_notebooks/2022-05-06-DS.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/charcoal/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/ki5n2/charcoal/master?filepath=_notebooks%2F2022-05-06-DS.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/charcoal/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/ki5n2/charcoal/blob/master/_notebooks/2022-05-06-DS.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/charcoal/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Fki5n2%2Fcharcoal%2Fblob%2Fmaster%2F_notebooks%2F2022-05-06-DS.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/charcoal/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Data-Science">Data Science </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#로지스틱-모형-(1):-활성화함수로-sigmoid-선택">로지스틱 모형 (1): 활성화함수로 sigmoid 선택 </a></li>
+<li class="toc-entry toc-h3"><a href="#로지스틱-모형-(2):-활성화함수로-softmax-선택">로지스틱 모형 (2): 활성화함수로 softmax 선택 </a></li>
+<li class="toc-entry toc-h3"><a href="#sigmoid,-softmax">sigmoid, softmax </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#softmax는-sigmoid의-확장형">softmax는 sigmoid의 확장형 </a></li>
+<li class="toc-entry toc-h4"><a href="#클래스의-수가-2인-경우-softmax-vs-sigmoid">클래스의 수가 2인 경우 softmax vs sigmoid </a></li>
+<li class="toc-entry toc-h4"><a href="#분류할-클래스가-3개-이상일-경우-신경망-모형의-설계">분류할 클래스가 3개 이상일 경우 신경망 모형의 설계 </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#Fashion_MNIST-다중분류">Fashion_MNIST 다중분류 </a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#추가학습">추가학습 </a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-05-06-DS.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="Data-Science">
+<a class="anchor" href="#Data-Science" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Science<a class="anchor-link" href="#Data-Science"> </a>
+</h1>
+<ul>
+<li>lenture: Data Science_10-1nd week of lectures.</li>
+<li>lenture date: 2022-05-04</li>
+<li>lecturer: Guebin choi</li>
+<li>study date: 2022-05-06</li>
+<li>author: Kione kim</li>
+</ul>
+<hr>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow.experimental.numpy</span> <span class="k">as</span> <span class="nn">tnp</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">list_physical_devices</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[PhysicalDevice(name='/physical_device:CPU:0', device_type='CPU')]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">graphviz</span>
+<span class="k">def</span> <span class="nf">gv</span><span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="k">return</span> <span class="n">graphviz</span><span class="o">.</span><span class="n">Source</span><span class="p">(</span><span class="s1">'digraph G{ rankdir="LR"'</span><span class="o">+</span> <span class="n">s</span> <span class="o">+</span> <span class="s1">';}'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="로지스틱-모형-(1):-활성화함수로-sigmoid-선택">
+<a class="anchor" href="#%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8B%B1-%EB%AA%A8%ED%98%95-(1):-%ED%99%9C%EC%84%B1%ED%99%94%ED%95%A8%EC%88%98%EB%A1%9C-sigmoid-%EC%84%A0%ED%83%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>로지스틱 모형 (1): 활성화함수로 sigmoid 선택<a class="anchor-link" href="#%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8B%B1-%EB%AA%A8%ED%98%95-(1):-%ED%99%9C%EC%84%B1%ED%99%94%ED%95%A8%EC%88%98%EB%A1%9C-sigmoid-%EC%84%A0%ED%83%9D"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 기본버전</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$y_i \approx(비례) \text{sigmoid}(b + w_1 x_{1,i} + \dots + w_{784}x_{784,i})=(등호) \frac{\exp(b + w_1 x_{1,i} + \dots + w_{784}x_{784,i})}{1+\exp(b + w_1 x_{1,i} + \dots + w_{784}x_{784,i})}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+$${\boldsymbol y} \approx \text{sigmoid}({\bf X}{\bf W} + b) = \frac{\exp({\bf XW} +b)}{1+\exp({\bf XW} +b)}$$<p></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>sigmoid를 사용하는 이유: 확률계산 및 해석을 손쉽게 하기 위해!</li>
+</ul>
+<ol>
+<li>y값은 0과 1로 정해져있는 반면, sigmoid를 취해주지 않으면 XW + b의 값이 음수를 포함한 실수가 될 수 있기에 확률을 알기 어려운 점이 있다.</li>
+<li>x(학점)가 3.0에서 3.5로 증가하면 y(합격)가 얼만큼 증가(합격률)하는지 궁금한데, sigmoid를 취해주지 않으면 이에 대한 확률을 계산하기 어렵다.
+-&gt; 확률 계산 및 해석을 쉽게 하기 위해 sigmoid를 취해준다고 보면 된다.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 벡터버전에 사용된 차원 및 연산 정리</p>
+<ul>
+<li>
+<p>${\bf X}$: (n,784) matrix</p>
+</li>
+<li>
+<p>${\boldsymbol y}$: (n,1) matrix</p>
+</li>
+<li>
+<p>${\bf W}$: (784,1) matrix</p>
+</li>
+<li>
+<p>$b$: (1,1) matrix</p>
+</li>
+<li>
+<p><code>+</code>, <code>exp</code> 는 브로드캐스팅</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>y 해석: XW+b의 값이 큰 row일 수록 대응하는 y의 row 값은 1, 작은 row일 수록 대응하는 y의 row 값은 0이다.</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="로지스틱-모형-(2):-활성화함수로-softmax-선택">
+<a class="anchor" href="#%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8B%B1-%EB%AA%A8%ED%98%95-(2):-%ED%99%9C%EC%84%B1%ED%99%94%ED%95%A8%EC%88%98%EB%A1%9C-softmax-%EC%84%A0%ED%83%9D" aria-hidden="true"><span class="octicon octicon-link"></span></a>로지스틱 모형 (2): 활성화함수로 softmax 선택<a class="anchor-link" href="#%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8B%B1-%EB%AA%A8%ED%98%95-(2):-%ED%99%9C%EC%84%B1%ED%99%94%ED%95%A8%EC%88%98%EB%A1%9C-softmax-%EC%84%A0%ED%83%9D"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>원핫인코딩:</code> $y_i=0 \text{ or } 1$ 대신에 $\boldsymbol{y}_i=[y_{i1},y_{i2}]= [1,0] \text { or } [0,1]$와 같이 코딩</p>
+<ul>
+<li>원핫인코딩을 하는 이유: 원핫인코딩을 하면 다항분포를 따르게 되므로 오차항을 가정할 수 있고 오차항이 가정되면 loss를 정의할 때 -log likelyhood로 바꿔서 정의할 수 있기 때문이다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 활성화 함수를 취하기 전의 버전</p>
+<p>
+$$[{\boldsymbol y}_1 ~ {\boldsymbol y}_2] \propto  [ {\bf X}{\bf W}_1  ~ {\bf X}{\bf W}_2] + [b_1 ~ b_2]= {\bf X} [{\bf W}_1 {\bf W}_2] + [b_1 ~ b_2]= {\bf X}{\bf W} + {\boldsymbol b}$$
+</p>
+<p>여기에서 매트릭스 및 연산의 차원을 정리하면 아래와 같다.</p>
+<ul>
+<li>
+<p>${\bf X}$: (n,784) matrix</p>
+</li>
+<li>
+<p>${\boldsymbol y}_1,{\boldsymbol y}_2$: (n,1) matrix</p>
+</li>
+<li>
+<p>${\boldsymbol y}:=[{\boldsymbol y}_1~ {\boldsymbol y}_2]$: (n,2) matrix</p>
+</li>
+<li>
+<p>${\bf W}_1$, ${\bf W}_2$: (784,1) matrix</p>
+</li>
+<li>
+<p>${\bf W}:=[{\bf W}_1~ {\bf W}_2]$: (784,2) matrix</p>
+</li>
+<li>
+<p>$b_1,b_2$: (1,1) matrix</p>
+</li>
+<li>
+<p>$\boldsymbol{b}:= [b_1 ~b_2] $: (1,2) matrix</p>
+</li>
+<li>
+<p><code>+</code> 는 브로드캐스팅</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 즉 로지스틱 모형 (1)의 형태를 겹쳐놓은 형태로 해석할 수 있음. 따라서 ${\bf X} {\bf W}_1 + b_1$와 ${\bf X} {\bf W}_2 + b_2$의 row값이 클수록 ${\boldsymbol y}_1$와 ${\boldsymbol y}_2$의 row값이 1이어야 함</p>
+<ul>
+<li>${\boldsymbol y}_1 \propto  {\bf X} {\bf W}_1 + b_1$ $\to$ ${\bf X} {\bf W}_1 + b_1$의 row값이 클수록 $\boldsymbol{y}_1$의 row 값이 1이라면 모형계수를 잘 추정한 것 </li>
+<li>${\boldsymbol y}_2 \propto  {\bf X} {\bf W}_2 + b_2$ $\to$ ${\bf X} {\bf W}_2 + b_2$의 row값이 클수록 $\boldsymbol{y}_2$의 row 값을 1이라면 모형계수를 잘 추정한 것</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>질문</code> ${\bf X}{\bf W}_1 +b_1$의 값이 500, ${\bf X}{\bf W}_2 +b_2$의 값이 200 인 row가 있다면 대응하는 $\boldsymbol{y}_1, \boldsymbol{y}_2$의 row값은 얼마로 적합되어야 할까?</p>
+<p>(1) $[0,0]$</p>
+<p>(2) $[0,1]$</p>
+<p>(3) $[1,0]$ &lt;- 답</p>
+<p>(4) $[1,1]$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>: ${\bf X}{\bf W}_1 +b_1$의 값이 ${\bf X}{\bf W}_2 +b_2$의 값보다 크므로 (3)이 답</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>목표</code> 위와 같은 문제의 답을 유도해주는 활성화함수를 설계하자. 즉 합리적인 $\hat{\boldsymbol{y}}_1,\hat{\boldsymbol{y}}_2$를 구해주는 활성화 함수를 설계해보자. 이를 위해서는 아래의 사항들이 충족되어야 한다.</p>
+<p>(1) $\hat{\boldsymbol{y}}_1$, $\hat{\boldsymbol{y}}_2$의 각 원소는 확률을 의미하기 때문에 0보다 크고 1보다 작아야 한다.</p>
+<p>(2) $\hat{\boldsymbol{y}}_1+\hat{\boldsymbol{y}}_2={\bf 1}$ 이어야 한다. 확률의 총합은 1 이기 때문</p>
+<p>(3) $\hat{\boldsymbol{y}}_1$와 $\hat{\boldsymbol{y}}_2$를 각각 따로 해석하면 모형(1)처럼 로지스틱의 형태로 되었으면 좋겠다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 아래와 같은 활성화 함수를 도입하면 어떨까?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+$$\hat{\boldsymbol{y}}=[\hat{\boldsymbol y}_1 ~ \hat{\boldsymbol y}_2] =  \big[ \frac{\exp({\bf X}\hat_1+\hat{b}_1)}{\exp({\bf X}\hat{\bf W}_1+\hat{b}_1)+\exp({\bf X}\hat{\bf W}_2+\hat{b}_2)}  ~~ \frac{\exp({\bf X}\hat{\bf W}_2+\hat{b}_2)}{\exp({\bf X}\hat{\bf W}_1+\hat{b}_1)+\exp({\bf X}\hat{\bf W}_2+\hat{b}_2)}  \big]$$<p></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>$\exp({\bf X}\hat_1+\hat{b}_1)$ 을 □, $\exp({\bf X}\hat_2+\hat{b}_2)$를 △ 생각해보자.</p>
+<p>$\big[\frac{□}{□+△} \frac{△}{□+△}\big]$ 가 되어 (1)과 (2)는 만족한다!</p>
+<p>(1) $\hat{\boldsymbol{y}}_1$, $\hat{\boldsymbol{y}}_2$의 각 원소는 0보다 크고 1보다 작아야 한다. -&gt; 만족!</p>
+<p>(2) $\hat{\boldsymbol{y}}_1+\hat{\boldsymbol{y}}_2={\bf 1}$ 이어야 한다. -&gt; 만족!</p>
+<p>(3) $\hat{\boldsymbol{y}}_1$와 $\hat{\boldsymbol{y}}_2$를 각각 따로 해석하면 로지스틱처럼 되면 좋겠다.  -&gt; ?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 그런데 조금 따져보면 (3)도 만족한다는 것을 알 수 있다. (sigmoid, softmax Section 참고)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 위와 같은 함수를 softmax라고 하고 아래와 같이 정의하자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+$$
+\begin{align}
+&amp; \hat{\boldsymbol y} = \text{softmax}({\bf X}{\bf W} + {\boldsymbol b}) \\ 
+&amp;= \big[ \frac{\exp({\bf X}\hat_1+\hat{b}_1)}{\exp({\bf X}\hat{\bf W}_1+\hat{b}_1)+\exp({\bf X}\hat{\bf W}_2+\hat{b}_2)}  ~~ \frac{\exp({\bf X}\hat{\bf W}_2+\hat{b}_2)}{\exp({\bf X}\hat{\bf W}_1+\hat{b}_1)+\exp({\bf X}\hat{\bf W}_2+\hat{b}_2)}  \big]
+\end{align}
+$$
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="sigmoid,-softmax">
+<a class="anchor" href="#sigmoid,-softmax" aria-hidden="true"><span class="octicon octicon-link"></span></a>sigmoid, softmax<a class="anchor-link" href="#sigmoid,-softmax"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="softmax는-sigmoid의-확장형">
+<a class="anchor" href="#softmax%EB%8A%94-sigmoid%EC%9D%98-%ED%99%95%EC%9E%A5%ED%98%95" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>softmax는 sigmoid의 확장형</strong><a class="anchor-link" href="#softmax%EB%8A%94-sigmoid%EC%9D%98-%ED%99%95%EC%9E%A5%ED%98%95"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 아래의 수식을 관찰하자. 
+
+$$\frac{\exp(\beta_0+\beta_1 x_i)}{1+\exp(\beta_0+\beta_1x_i)}=\frac{\exp(\beta_0+\beta_1 x_i)}{e^0+\exp(\beta_0+\beta_1x_i)}$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 1을 $e^0$로 해석하면 모형2의 해석을 아래와 같이 모형1의 해석으로 적용할수 있다.</p>
+<ul>
+<li>모형2: ${\bf X}\hat{\bf W}_1 +\hat{b}_1$ 와 ${\bf X}\hat{\bf W}_2 +\hat{b}_2$ 의 크기를 비교하고 확률 결정</li>
+<li>모형1: ${\bf X}\hat{\bf W} +\hat{b}$ 와 $0$의 크기를 비교하고 확률 결정 = ${\bf X}\hat{\bf W} +\hat{b}$의 row값이 양수이면 1로 예측하고 음수이면 0으로 예측</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>이항분포를 차원이 2인 다항분포로 해석가능한 것 처럼, sigmoid는 차원이 2인 softmax로 해석가능하다. 즉 다항분포가 이항분포의 확장형으로 해석가능한것 처럼 softmax도 sigmoid의 확장형으로 해석가능하다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="클래스의-수가-2인-경우-softmax-vs-sigmoid">
+<a class="anchor" href="#%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%98-%EC%88%98%EA%B0%80-2%EC%9D%B8-%EA%B2%BD%EC%9A%B0-softmax-vs-sigmoid" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>클래스의 수가 2인 경우 softmax vs sigmoid</strong><a class="anchor-link" href="#%ED%81%B4%EB%9E%98%EC%8A%A4%EC%9D%98-%EC%88%98%EA%B0%80-2%EC%9D%B8-%EA%B2%BD%EC%9A%B0-softmax-vs-sigmoid"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 그럼 클래스가 2인 경우에도 sigmoid 대신 softmax로 활성화함수를 이용해도 되지 않을까? 즉 $y=0 \text{ or } 1$와 같이 정리하지 않고 $y=[0,1] \text{ or } [1,0]$ 와 같이 정리해도 되지 않을까?</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 하지만 sigmoid가 좀 더 좋은 선택이다. 즉 $y= 0 \text{ or } 1$로 데이터를 정리하는 것이 더 좋다. 왜냐하면 sigmoid는 softmax와 비교하여 파라메터의 수가 적지만 표현력은 동등하기 때문이다.</p>
+<ul>
+<li>파라메터 수: sigmoid의 경우 $W$의 경우 (784×1)이지만 softmax의 경우 $W$의 경우 (784×2)이다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 표현력이 동등한 이유? 아래 수식을 관찰하자.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>
+$$\big(\frac{e^{300}}{e^{300}+e^{500}},\frac{e^{500}}{e^{300}+e^{500}}\big) =\big( \frac{e^{0}}{e^{0}+e^{200}}, \frac{e^{200}}{e^{0}+e^{200}}\big)$$
+</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>$\big(\frac{e^{300}}{e^{300}+e^{500}},\frac{e^{500}}{e^{300}+e^{500}}\big)$를 표현하기 위해서 300, 500 이라는 2개의 숫자가 필요한것이 아니고 따지고보면 200이라는 하나의 숫자만 필요하다. </li>
+<li>$(\hat{\boldsymbol{y}}_1,\hat{\boldsymbol{y}}_2)$의 표현에서도 ${\bf X}\hat{\bf W}_1 +\hat{b}_1$ 와 ${\bf X}\hat{\bf W}_2 +\hat{b}_2$ 라는 숫자 각각이 필요한 것이 아니고 $({\bf X}\hat{\bf W}_1 +\hat{b}_1)-({\bf X}\hat{\bf W}_2 +\hat{b}_2)$의 값만 알면 된다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 클래스의 수가 2개일 경우는 softmax가 sigmoid에 비하여 장점이 없다. 하지만 softmax는 클래스의 수가 3개 이상일 경우로 쉽게 확장할 수 있다는 점에서 매력적인 활성화 함수이다.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="분류할-클래스가-3개-이상일-경우-신경망-모형의-설계">
+<a class="anchor" href="#%EB%B6%84%EB%A5%98%ED%95%A0-%ED%81%B4%EB%9E%98%EC%8A%A4%EA%B0%80-3%EA%B0%9C-%EC%9D%B4%EC%83%81%EC%9D%BC-%EA%B2%BD%EC%9A%B0-%EC%8B%A0%EA%B2%BD%EB%A7%9D-%EB%AA%A8%ED%98%95%EC%9D%98-%EC%84%A4%EA%B3%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>분류할 클래스가 3개 이상일 경우 신경망 모형의 설계<a class="anchor-link" href="#%EB%B6%84%EB%A5%98%ED%95%A0-%ED%81%B4%EB%9E%98%EC%8A%A4%EA%B0%80-3%EA%B0%9C-%EC%9D%B4%EC%83%81%EC%9D%BC-%EA%B2%BD%EC%9A%B0-%EC%8B%A0%EA%B2%BD%EB%A7%9D-%EB%AA%A8%ED%98%95%EC%9D%98-%EC%84%A4%EA%B3%84"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> y의 모양</p>
+<p>: [0 1 0 0 0 0 0 0 0 0]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 활성화함수의 선택</p>
+<p>: softmax</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 손실함수의 선택</p>
+<p>: (categorical) cross entropy</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>sigmoid나 softmax를 마지막에 사용하는 이유는 함수의 모양을 떠올려서 생각해볼 수 있다. sigmoid나 softmax는 y의 값이 0-1로 맞춰져 있는 로지스틱에서 사용되는데, 그 이유가 sigmoid나 softmax는 y의 값을 0-1로 맞춰주는 역할을 하기 때문이다. 선형회귀에서 항등함수를 사용한 이유는 y의 값이 0-1인 로지스틱이 아니었기에 그런 형태로 맞춰줄 필요가 없었기 때문이다. </li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Fashion_MNIST-다중분류">
+<a class="anchor" href="#Fashion_MNIST-%EB%8B%A4%EC%A4%91%EB%B6%84%EB%A5%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fashion_MNIST 다중분류<a class="anchor-link" href="#Fashion_MNIST-%EB%8B%A4%EC%A4%91%EB%B6%84%EB%A5%98"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 데이터정리</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">fashion_mnist</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>원핫인코딩: <code>tf.keras.utils.to_categorical()</code>을 사용</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[0., 0., 0., ..., 0., 0., 1.],
+       [1., 0., 0., ..., 0., 0., 0.],
+       [1., 0., 0., ..., 0., 0., 0.],
+       ...,
+       [0., 0., 0., ..., 0., 0., 0.],
+       [1., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.]], dtype=float32)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">X</span><span class="o">=</span><span class="n">x_train</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">784</span><span class="p">)</span>
+<span class="n">y</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">XX</span><span class="o">=</span><span class="n">x_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">784</span><span class="p">)</span>
+<span class="n">yy</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">to_categorical</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 시도1: 간단한 신경망</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p></p>
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gv</span><span class="p">(</span><span class="s1">'''</span>
+<span class="s1">splines=line</span>
+<span class="s1">subgraph cluster_1{</span>
+<span class="s1">    style=filled;</span>
+<span class="s1">    color=lightgrey;</span>
+<span class="s1">    "x1"</span>
+<span class="s1">    "x2"</span>
+<span class="s1">    ".."</span>
+<span class="s1">    "x784"</span>
+<span class="s1">    label = "Layer 0"</span>
+<span class="s1">}</span>
+<span class="s1">subgraph cluster_2{</span>
+<span class="s1">    style=filled;</span>
+<span class="s1">    color=lightgrey;</span>
+<span class="s1">    "x1" -&gt; "node1"</span>
+<span class="s1">    "x2" -&gt; "node1"</span>
+<span class="s1">    ".." -&gt; "node1"</span>
+<span class="s1">    </span>
+<span class="s1">    "x784" -&gt; "node1"</span>
+<span class="s1">    "x1" -&gt; "node2"</span>
+<span class="s1">    "x2" -&gt; "node2"</span>
+<span class="s1">    ".." -&gt; "node2"</span>
+<span class="s1">    "x784" -&gt; "node2"</span>
+<span class="s1">    </span>
+<span class="s1">    "x1" -&gt; "..."</span>
+<span class="s1">    "x2" -&gt; "..."</span>
+<span class="s1">    ".." -&gt; "..."</span>
+<span class="s1">    "x784" -&gt; "..."</span>
+
+<span class="s1">    "x1" -&gt; "node30"</span>
+<span class="s1">    "x2" -&gt; "node30"</span>
+<span class="s1">    ".." -&gt; "node30"</span>
+<span class="s1">    "x784" -&gt; "node30"</span>
+
+
+<span class="s1">    label = "Layer 1: relu"</span>
+<span class="s1">}</span>
+<span class="s1">subgraph cluster_3{</span>
+<span class="s1">    style=filled;</span>
+<span class="s1">    color=lightgrey;</span>
+
+<span class="s1">    "node1" -&gt; "y10"</span>
+<span class="s1">    "node2" -&gt; "y10"</span>
+<span class="s1">    "..." -&gt; "y10"</span>
+<span class="s1">    "node30" -&gt; "y10"</span>
+<span class="s1">    </span>
+<span class="s1">    "node1" -&gt; "y1"</span>
+<span class="s1">    "node2" -&gt; "y1"</span>
+<span class="s1">    "..." -&gt; "y1"</span>
+<span class="s1">    "node30" -&gt; "y1"</span>
+<span class="s1">    </span>
+<span class="s1">    "node1" -&gt; "."</span>
+<span class="s1">    "node2" -&gt; "."</span>
+<span class="s1">    "..." -&gt; "."</span>
+<span class="s1">    "node30" -&gt; "."</span>
+<span class="s1">    </span>
+<span class="s1">    label = "Layer 2: softmax"</span>
+<span class="s1">}</span>
+<span class="s1">'''</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_svg output_subarea output_execute_result">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+<!-- Generated by graphviz version 2.38.0 (20140413.2041)
+ -->
+<!-- Title: G Pages: 1 -->
+<svg width="305pt" height="261pt" viewbox="0.00 0.00 304.59 261.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 257)">
+<title>G</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-257 300.588,-257 300.588,4 -4,4"></polygon>
+<g id="clust3" class="cluster"><title>cluster_3</title>
+<polygon fill="lightgrey" stroke="lightgrey" points="107.195,-8 107.195,-245 288.588,-245 288.588,-8 107.195,-8"></polygon>
+<text text-anchor="middle" x="197.892" y="-229.8" font-family="Times New Roman,serif" font-size="14.00">Layer 2: softmax</text>
+</g>
+<g id="clust2" class="cluster"><title>cluster_2</title>
+<polygon fill="lightgrey" stroke="lightgrey" points="2,-8 2,-245 87.1949,-245 87.1949,-8 2,-8"></polygon>
+<text text-anchor="middle" x="44.5975" y="-229.8" font-family="Times New Roman,serif" font-size="14.00">Layer 1: relu</text>
+</g>
+<!-- x1 -->
+<g id="node1" class="node"><title>x1</title>
+<ellipse fill="none" stroke="black" cx="44.5975" cy="-196" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="44.5975" y="-192.3" font-family="Times New Roman,serif" font-size="14.00">x1</text>
+</g>
+<!-- node1 -->
+<g id="node5" class="node"><title>node1</title>
+<ellipse fill="none" stroke="black" cx="152.892" cy="-196" rx="33.2948" ry="18"></ellipse>
+<text text-anchor="middle" x="152.892" y="-192.3" font-family="Times New Roman,serif" font-size="14.00">node1</text>
+</g>
+<!-- x1&#45;&gt;node1 -->
+<g id="edge1" class="edge"><title>x1-&gt;node1</title>
+<path fill="none" stroke="black" d="M71.5999,-196C83.0452,-196 96.7863,-196 109.639,-196"></path>
+<polygon fill="black" stroke="black" points="109.696,-199.5 119.696,-196 109.696,-192.5 109.696,-199.5"></polygon>
+</g>
+<!-- node2 -->
+<g id="node6" class="node"><title>node2</title>
+<ellipse fill="none" stroke="black" cx="152.892" cy="-142" rx="33.2948" ry="18"></ellipse>
+<text text-anchor="middle" x="152.892" y="-138.3" font-family="Times New Roman,serif" font-size="14.00">node2</text>
+</g>
+<!-- x1&#45;&gt;node2 -->
+<g id="edge5" class="edge"><title>x1-&gt;node2</title>
+<path fill="none" stroke="black" d="M66.5978,-185.331C81.5041,-177.759 101.815,-167.44 118.877,-158.772"></path>
+<polygon fill="black" stroke="black" points="120.637,-161.804 127.967,-154.154 117.466,-155.563 120.637,-161.804"></polygon>
+</g>
+<!-- ... -->
+<g id="node7" class="node"><title>...</title>
+<ellipse fill="none" stroke="black" cx="152.892" cy="-88" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="152.892" y="-84.3" font-family="Times New Roman,serif" font-size="14.00">...</text>
+</g>
+<!-- x1&#45;&gt;... -->
+<g id="edge9" class="edge"><title>x1-&gt;...</title>
+<path fill="none" stroke="black" d="M60.3772,-180.983C78.4638,-162.606 109.244,-131.332 130.061,-110.181"></path>
+<polygon fill="black" stroke="black" points="132.717,-112.472 137.237,-102.889 127.728,-107.561 132.717,-112.472"></polygon>
+</g>
+<!-- node30 -->
+<g id="node8" class="node"><title>node30</title>
+<ellipse fill="none" stroke="black" cx="152.892" cy="-34" rx="37.8943" ry="18"></ellipse>
+<text text-anchor="middle" x="152.892" y="-30.3" font-family="Times New Roman,serif" font-size="14.00">node30</text>
+</g>
+<!-- x1&#45;&gt;node30 -->
+<g id="edge13" class="edge"><title>x1-&gt;node30</title>
+<path fill="none" stroke="black" d="M56.3745,-179.575C74.8823,-151.368 112.843,-93.5126 134.929,-59.8521"></path>
+<polygon fill="black" stroke="black" points="137.885,-61.7272 140.444,-51.4462 132.032,-57.8871 137.885,-61.7272"></polygon>
+</g>
+<!-- x2 -->
+<g id="node2" class="node"><title>x2</title>
+<ellipse fill="none" stroke="black" cx="44.5975" cy="-142" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="44.5975" y="-138.3" font-family="Times New Roman,serif" font-size="14.00">x2</text>
+</g>
+<!-- x2&#45;&gt;node1 -->
+<g id="edge2" class="edge"><title>x2-&gt;node1</title>
+<path fill="none" stroke="black" d="M66.5978,-152.669C81.5041,-160.241 101.815,-170.56 118.877,-179.228"></path>
+<polygon fill="black" stroke="black" points="117.466,-182.437 127.967,-183.846 120.637,-176.196 117.466,-182.437"></polygon>
+</g>
+<!-- x2&#45;&gt;node2 -->
+<g id="edge6" class="edge"><title>x2-&gt;node2</title>
+<path fill="none" stroke="black" d="M71.5999,-142C83.0452,-142 96.7863,-142 109.639,-142"></path>
+<polygon fill="black" stroke="black" points="109.696,-145.5 119.696,-142 109.696,-138.5 109.696,-145.5"></polygon>
+</g>
+<!-- x2&#45;&gt;... -->
+<g id="edge10" class="edge"><title>x2-&gt;...</title>
+<path fill="none" stroke="black" d="M66.5978,-131.331C82.3209,-123.344 104.057,-112.301 121.651,-103.363"></path>
+<polygon fill="black" stroke="black" points="123.605,-106.296 130.935,-98.6465 120.434,-100.055 123.605,-106.296"></polygon>
+</g>
+<!-- x2&#45;&gt;node30 -->
+<g id="edge14" class="edge"><title>x2-&gt;node30</title>
+<path fill="none" stroke="black" d="M60.3772,-126.983C78.0574,-109.019 107.867,-78.7309 128.643,-57.6221"></path>
+<polygon fill="black" stroke="black" points="131.329,-59.8825 135.849,-50.3003 126.34,-54.9723 131.329,-59.8825"></polygon>
+</g>
+<!-- .. -->
+<g id="node3" class="node"><title>..</title>
+<ellipse fill="none" stroke="black" cx="44.5975" cy="-88" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="44.5975" y="-84.3" font-family="Times New Roman,serif" font-size="14.00">..</text>
+</g>
+<!-- ..&#45;&gt;node1 -->
+<g id="edge3" class="edge"><title>..-&gt;node1</title>
+<path fill="none" stroke="black" d="M60.3772,-103.017C78.159,-121.084 108.21,-151.618 129,-172.741"></path>
+<polygon fill="black" stroke="black" points="126.691,-175.385 136.2,-180.057 131.68,-170.475 126.691,-175.385"></polygon>
+</g>
+<!-- ..&#45;&gt;node2 -->
+<g id="edge7" class="edge"><title>..-&gt;node2</title>
+<path fill="none" stroke="black" d="M66.5978,-98.6687C81.5041,-106.241 101.815,-116.56 118.877,-125.228"></path>
+<polygon fill="black" stroke="black" points="117.466,-128.437 127.967,-129.846 120.637,-122.196 117.466,-128.437"></polygon>
+</g>
+<!-- ..&#45;&gt;... -->
+<g id="edge11" class="edge"><title>..-&gt;...</title>
+<path fill="none" stroke="black" d="M71.5999,-88C84.8545,-88 101.188,-88 115.655,-88"></path>
+<polygon fill="black" stroke="black" points="115.789,-91.5001 125.789,-88 115.789,-84.5001 115.789,-91.5001"></polygon>
+</g>
+<!-- ..&#45;&gt;node30 -->
+<g id="edge15" class="edge"><title>..-&gt;node30</title>
+<path fill="none" stroke="black" d="M66.5978,-77.3313C81.0957,-69.966 100.706,-60.0036 117.467,-51.4883"></path>
+<polygon fill="black" stroke="black" points="119.105,-54.582 126.436,-46.9322 115.935,-48.3411 119.105,-54.582"></polygon>
+</g>
+<!-- x784 -->
+<g id="node4" class="node"><title>x784</title>
+<ellipse fill="none" stroke="black" cx="44.5975" cy="-34" rx="28.6953" ry="18"></ellipse>
+<text text-anchor="middle" x="44.5975" y="-30.3" font-family="Times New Roman,serif" font-size="14.00">x784</text>
+</g>
+<!-- x784&#45;&gt;node1 -->
+<g id="edge4" class="edge"><title>x784-&gt;node1</title>
+<path fill="none" stroke="black" d="M56.3745,-50.4249C74.9792,-78.7799 113.241,-137.094 135.275,-170.675"></path>
+<polygon fill="black" stroke="black" points="132.355,-172.605 140.767,-179.046 138.208,-168.765 132.355,-172.605"></polygon>
+</g>
+<!-- x784&#45;&gt;node2 -->
+<g id="edge8" class="edge"><title>x784-&gt;node2</title>
+<path fill="none" stroke="black" d="M60.3772,-49.0169C78.159,-67.0841 108.21,-97.6177 129,-118.741"></path>
+<polygon fill="black" stroke="black" points="126.691,-121.385 136.2,-126.057 131.68,-116.475 126.691,-121.385"></polygon>
+</g>
+<!-- x784&#45;&gt;... -->
+<g id="edge12" class="edge"><title>x784-&gt;...</title>
+<path fill="none" stroke="black" d="M67.3642,-45.058C83.0459,-53.0247 104.406,-63.8764 121.731,-72.6776"></path>
+<polygon fill="black" stroke="black" points="120.378,-75.9159 130.878,-77.3248 123.548,-69.675 120.378,-75.9159"></polygon>
+</g>
+<!-- x784&#45;&gt;node30 -->
+<g id="edge16" class="edge"><title>x784-&gt;node30</title>
+<path fill="none" stroke="black" d="M73.2475,-34C82.9434,-34 94.1231,-34 104.954,-34"></path>
+<polygon fill="black" stroke="black" points="105.172,-37.5001 115.172,-34 105.172,-30.5001 105.172,-37.5001"></polygon>
+</g>
+<!-- y10 -->
+<g id="node9" class="node"><title>y10</title>
+<ellipse fill="none" stroke="black" cx="253.588" cy="-115" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="253.588" y="-111.3" font-family="Times New Roman,serif" font-size="14.00">y10</text>
+</g>
+<!-- node1&#45;&gt;y10 -->
+<g id="edge17" class="edge"><title>node1-&gt;y10</title>
+<path fill="none" stroke="black" d="M171.994,-181.143C187.68,-168.27 210.522,-149.523 227.887,-135.273"></path>
+<polygon fill="black" stroke="black" points="230.406,-137.733 235.915,-128.683 225.965,-132.322 230.406,-137.733"></polygon>
+</g>
+<!-- y1 -->
+<g id="node10" class="node"><title>y1</title>
+<ellipse fill="none" stroke="black" cx="253.588" cy="-169" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="253.588" y="-165.3" font-family="Times New Roman,serif" font-size="14.00">y1</text>
+</g>
+<!-- node1&#45;&gt;y1 -->
+<g id="edge21" class="edge"><title>node1-&gt;y1</title>
+<path fill="none" stroke="black" d="M182.704,-188.118C193.882,-185.06 206.77,-181.534 218.411,-178.35"></path>
+<polygon fill="black" stroke="black" points="219.524,-181.674 228.246,-175.659 217.677,-174.922 219.524,-181.674"></polygon>
+</g>
+<!-- . -->
+<g id="node11" class="node"><title>.</title>
+<ellipse fill="none" stroke="black" cx="253.588" cy="-61" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="253.588" y="-57.3" font-family="Times New Roman,serif" font-size="14.00">.</text>
+</g>
+<!-- node1&#45;&gt;. -->
+<g id="edge25" class="edge"><title>node1-&gt;.</title>
+<path fill="none" stroke="black" d="M165.994,-179.446C183.179,-155.939 214.773,-112.724 234.677,-85.4995"></path>
+<polygon fill="black" stroke="black" points="237.619,-87.4057 240.695,-77.2674 231.968,-83.2744 237.619,-87.4057"></polygon>
+</g>
+<!-- node2&#45;&gt;y10 -->
+<g id="edge18" class="edge"><title>node2-&gt;y10</title>
+<path fill="none" stroke="black" d="M182.704,-134.118C193.882,-131.06 206.77,-127.534 218.411,-124.35"></path>
+<polygon fill="black" stroke="black" points="219.524,-127.674 228.246,-121.659 217.677,-120.922 219.524,-127.674"></polygon>
+</g>
+<!-- node2&#45;&gt;y1 -->
+<g id="edge22" class="edge"><title>node2-&gt;y1</title>
+<path fill="none" stroke="black" d="M182.704,-149.882C193.882,-152.94 206.77,-156.466 218.411,-159.65"></path>
+<polygon fill="black" stroke="black" points="217.677,-163.078 228.246,-162.341 219.524,-156.326 217.677,-163.078"></polygon>
+</g>
+<!-- node2&#45;&gt;. -->
+<g id="edge26" class="edge"><title>node2-&gt;.</title>
+<path fill="none" stroke="black" d="M171.994,-127.143C187.68,-114.27 210.522,-95.5233 227.887,-81.2726"></path>
+<polygon fill="black" stroke="black" points="230.406,-83.7328 235.915,-74.6833 225.965,-78.3218 230.406,-83.7328"></polygon>
+</g>
+<!-- ...&#45;&gt;y10 -->
+<g id="edge19" class="edge"><title>...-&gt;y10</title>
+<path fill="none" stroke="black" d="M178.035,-94.6049C190.223,-97.9391 205.215,-102.04 218.55,-105.688"></path>
+<polygon fill="black" stroke="black" points="217.782,-109.107 228.352,-108.37 219.629,-102.355 217.782,-109.107"></polygon>
+</g>
+<!-- ...&#45;&gt;y1 -->
+<g id="edge23" class="edge"><title>...-&gt;y1</title>
+<path fill="none" stroke="black" d="M170.634,-101.741C186.373,-114.657 210.12,-134.147 228.007,-148.827"></path>
+<polygon fill="black" stroke="black" points="225.813,-151.554 235.764,-155.192 230.254,-146.142 225.813,-151.554"></polygon>
+</g>
+<!-- ...&#45;&gt;. -->
+<g id="edge27" class="edge"><title>...-&gt;.</title>
+<path fill="none" stroke="black" d="M178.035,-81.3951C190.223,-78.0609 205.215,-73.9598 218.55,-70.3116"></path>
+<polygon fill="black" stroke="black" points="219.629,-73.6451 228.352,-67.6303 217.782,-66.8931 219.629,-73.6451"></polygon>
+</g>
+<!-- node30&#45;&gt;y10 -->
+<g id="edge20" class="edge"><title>node30-&gt;y10</title>
+<path fill="none" stroke="black" d="M172.921,-49.6176C188.614,-62.497 210.986,-80.8575 228.03,-94.8448"></path>
+<polygon fill="black" stroke="black" points="225.965,-97.6782 235.915,-101.317 230.406,-92.2672 225.965,-97.6782"></polygon>
+</g>
+<!-- node30&#45;&gt;y1 -->
+<g id="edge24" class="edge"><title>node30-&gt;y1</title>
+<path fill="none" stroke="black" d="M166.392,-51.0978C183.71,-74.7859 215.094,-117.714 234.836,-144.718"></path>
+<polygon fill="black" stroke="black" points="232.077,-146.874 240.804,-152.881 237.728,-142.743 232.077,-146.874"></polygon>
+</g>
+<!-- node30&#45;&gt;. -->
+<g id="edge28" class="edge"><title>node30-&gt;.</title>
+<path fill="none" stroke="black" d="M185.936,-42.7661C196.343,-45.6133 207.927,-48.7822 218.48,-51.669"></path>
+<polygon fill="black" stroke="black" points="217.64,-55.0679 228.209,-54.3307 219.487,-48.316 217.64,-55.0679"></polygon>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">43052</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">net</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">net</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'softmax'</span><span class="p">))</span>
+<span class="n">net</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">,</span><span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">categorical_crossentropy</span><span class="p">,</span><span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">'accuracy'</span><span class="p">])</span>
+<span class="n">net</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">1200</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Epoch 1/20
+50/50 [==============================] - 1s 10ms/step - loss: 32.5636 - accuracy: 0.3732
+Epoch 2/20
+50/50 [==============================] - 0s 9ms/step - loss: 2.4426 - accuracy: 0.3876
+Epoch 3/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.9157 - accuracy: 0.3830
+Epoch 4/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.7747 - accuracy: 0.4075
+Epoch 5/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.6499 - accuracy: 0.4506
+Epoch 6/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.5429 - accuracy: 0.4854
+Epoch 7/20
+50/50 [==============================] - 0s 10ms/step - loss: 1.4646 - accuracy: 0.4987
+Epoch 8/20
+50/50 [==============================] - 1s 12ms/step - loss: 1.3988 - accuracy: 0.5224
+Epoch 9/20
+50/50 [==============================] - 1s 10ms/step - loss: 1.3393 - accuracy: 0.5462
+Epoch 10/20
+50/50 [==============================] - 1s 10ms/step - loss: 1.2876 - accuracy: 0.5537
+Epoch 11/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.2507 - accuracy: 0.5610
+Epoch 12/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.2187 - accuracy: 0.5704
+Epoch 13/20
+50/50 [==============================] - 0s 10ms/step - loss: 1.1909 - accuracy: 0.5724
+Epoch 14/20
+50/50 [==============================] - 1s 11ms/step - loss: 1.1661 - accuracy: 0.5767
+Epoch 15/20
+50/50 [==============================] - 1s 10ms/step - loss: 1.1448 - accuracy: 0.5807
+Epoch 16/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.1248 - accuracy: 0.5847
+Epoch 17/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.1038 - accuracy: 0.5895
+Epoch 18/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.0868 - accuracy: 0.5917
+Epoch 19/20
+50/50 [==============================] - 0s 10ms/step - loss: 1.0720 - accuracy: 0.5945
+Epoch 20/20
+50/50 [==============================] - 1s 11ms/step - loss: 1.0525 - accuracy: 0.6013
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;keras.callbacks.History at 0x1b8151559d0&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">XX</span><span class="p">,</span><span class="n">yy</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>313/313 [==============================] - 1s 2ms/step - loss: 1.0973 - accuracy: 0.6055
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[1.0972778797149658, 0.6054999828338623]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>정확도가 60%정도로 표현력이 조금 떨어지는 것 같다</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 시도2: 더 깊은 신경망</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gv</span><span class="p">(</span><span class="s1">'''</span>
+<span class="s1">splines=line</span>
+<span class="s1">subgraph cluster_1{</span>
+<span class="s1">    style=filled;</span>
+<span class="s1">    color=lightgrey;</span>
+<span class="s1">    "x1"</span>
+<span class="s1">    "x2"</span>
+<span class="s1">    ".."</span>
+<span class="s1">    "x784"</span>
+<span class="s1">    label = "Layer 0"</span>
+<span class="s1">}</span>
+<span class="s1">subgraph cluster_2{</span>
+<span class="s1">    style=filled;</span>
+<span class="s1">    color=lightgrey;</span>
+<span class="s1">    "x1" -&gt; "node1"</span>
+<span class="s1">    "x2" -&gt; "node1"</span>
+<span class="s1">    ".." -&gt; "node1"</span>
+<span class="s1">    </span>
+<span class="s1">    "x784" -&gt; "node1"</span>
+<span class="s1">    "x1" -&gt; "node2"</span>
+<span class="s1">    "x2" -&gt; "node2"</span>
+<span class="s1">    ".." -&gt; "node2"</span>
+<span class="s1">    "x784" -&gt; "node2"</span>
+<span class="s1">    </span>
+<span class="s1">    "x1" -&gt; "..."</span>
+<span class="s1">    "x2" -&gt; "..."</span>
+<span class="s1">    ".." -&gt; "..."</span>
+<span class="s1">    "x784" -&gt; "..."</span>
+
+<span class="s1">    "x1" -&gt; "node500"</span>
+<span class="s1">    "x2" -&gt; "node500"</span>
+<span class="s1">    ".." -&gt; "node500"</span>
+<span class="s1">    "x784" -&gt; "node500"</span>
+
+
+<span class="s1">    label = "Layer 1: relu"</span>
+<span class="s1">}</span>
+
+<span class="s1">subgraph cluster_3{</span>
+<span class="s1">    style=filled;</span>
+<span class="s1">    color=lightgrey;</span>
+
+<span class="s1">    "node1" -&gt; "node1(2)"</span>
+<span class="s1">    "node2" -&gt; "node1(2)"</span>
+<span class="s1">    "..." -&gt; "node1(2)"</span>
+<span class="s1">    "node500" -&gt; "node1(2)"</span>
+
+<span class="s1">    "node1" -&gt; "node2(2)"</span>
+<span class="s1">    "node2" -&gt; "node2(2)"</span>
+<span class="s1">    "..." -&gt; "node2(2)"</span>
+<span class="s1">    "node500" -&gt; "node2(2)"</span>
+<span class="s1">    </span>
+<span class="s1">    "node1" -&gt; "...."</span>
+<span class="s1">    "node2" -&gt; "...."</span>
+<span class="s1">    "..." -&gt; "...."</span>
+<span class="s1">    "node500" -&gt; "...."</span>
+<span class="s1">    </span>
+<span class="s1">    "node1" -&gt; "node500(2)"</span>
+<span class="s1">    "node2" -&gt; "node500(2)"</span>
+<span class="s1">    "..." -&gt; "node500(2)"</span>
+<span class="s1">    "node500" -&gt; "node500(2)"</span>
+
+<span class="s1">    </span>
+<span class="s1">    label = "Layer 2: relu"</span>
+<span class="s1">}</span>
+
+<span class="s1">subgraph cluster_4{</span>
+<span class="s1">    style=filled;</span>
+<span class="s1">    color=lightgrey;</span>
+
+<span class="s1">    "node1(2)" -&gt; "y10"</span>
+<span class="s1">    "node2(2)" -&gt; "y10"</span>
+<span class="s1">    "...." -&gt; "y10"</span>
+<span class="s1">    "node500(2)" -&gt; "y10"</span>
+<span class="s1">    </span>
+<span class="s1">    "node1(2)" -&gt; "y1"</span>
+<span class="s1">    "node2(2)" -&gt; "y1"</span>
+<span class="s1">    "...." -&gt; "y1"</span>
+<span class="s1">    "node500(2)" -&gt; "y1"</span>
+<span class="s1">    </span>
+<span class="s1">    "node1(2)" -&gt; "."</span>
+<span class="s1">    "node2(2)" -&gt; "."</span>
+<span class="s1">    "...." -&gt; "."</span>
+<span class="s1">    "node500(2)" -&gt; "."</span>
+<span class="s1">    </span>
+<span class="s1">    label = "Layer 3: sigmoid"</span>
+<span class="s1">}</span>
+<span class="s1">'''</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_svg output_subarea output_execute_result">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;
+<!-- Generated by graphviz version 2.38.0 (20140413.2041)
+ -->
+<!-- Title: G Pages: 1 -->
+<svg width="480pt" height="261pt" viewbox="0.00 0.00 479.68 261.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 257)">
+<title>G</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-257 475.678,-257 475.678,4 -4,4"></polygon>
+<g id="clust1" class="cluster"><title>cluster_1</title>
+<polygon fill="lightgrey" stroke="lightgrey" points="8,-8 8,-245 81.1949,-245 81.1949,-8 8,-8"></polygon>
+<text text-anchor="middle" x="44.5975" y="-229.8" font-family="Times New Roman,serif" font-size="14.00">Layer 0</text>
+</g>
+<g id="clust2" class="cluster"><title>cluster_2</title>
+<polygon fill="lightgrey" stroke="lightgrey" points="101.195,-8 101.195,-245 201.687,-245 201.687,-8 101.195,-8"></polygon>
+<text text-anchor="middle" x="151.441" y="-229.8" font-family="Times New Roman,serif" font-size="14.00">Layer 1: relu</text>
+</g>
+<g id="clust3" class="cluster"><title>cluster_3</title>
+<polygon fill="lightgrey" stroke="lightgrey" points="221.687,-8 221.687,-245 341.678,-245 341.678,-8 221.687,-8"></polygon>
+<text text-anchor="middle" x="281.683" y="-229.8" font-family="Times New Roman,serif" font-size="14.00">Layer 2: relu</text>
+</g>
+<g id="clust4" class="cluster"><title>cluster_4</title>
+<polygon fill="lightgrey" stroke="lightgrey" points="361.678,-35 361.678,-218 471.678,-218 471.678,-35 361.678,-35"></polygon>
+<text text-anchor="middle" x="416.678" y="-202.8" font-family="Times New Roman,serif" font-size="14.00">Layer 3: sigmoid</text>
+</g>
+<!-- x1 -->
+<g id="node1" class="node"><title>x1</title>
+<ellipse fill="none" stroke="black" cx="44.5975" cy="-196" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="44.5975" y="-192.3" font-family="Times New Roman,serif" font-size="14.00">x1</text>
+</g>
+<!-- node1 -->
+<g id="node5" class="node"><title>node1</title>
+<ellipse fill="none" stroke="black" cx="151.441" cy="-196" rx="33.2948" ry="18"></ellipse>
+<text text-anchor="middle" x="151.441" y="-192.3" font-family="Times New Roman,serif" font-size="14.00">node1</text>
+</g>
+<!-- x1&#45;&gt;node1 -->
+<g id="edge1" class="edge"><title>x1-&gt;node1</title>
+<path fill="none" stroke="black" d="M71.7835,-196C82.7767,-196 95.844,-196 108.139,-196"></path>
+<polygon fill="black" stroke="black" points="108.223,-199.5 118.223,-196 108.223,-192.5 108.223,-199.5"></polygon>
+</g>
+<!-- node2 -->
+<g id="node6" class="node"><title>node2</title>
+<ellipse fill="none" stroke="black" cx="151.441" cy="-142" rx="33.2948" ry="18"></ellipse>
+<text text-anchor="middle" x="151.441" y="-138.3" font-family="Times New Roman,serif" font-size="14.00">node2</text>
+</g>
+<!-- x1&#45;&gt;node2 -->
+<g id="edge5" class="edge"><title>x1-&gt;node2</title>
+<path fill="none" stroke="black" d="M66.5622,-185.202C81.1842,-177.671 100.988,-167.471 117.681,-158.873"></path>
+<polygon fill="black" stroke="black" points="119.294,-161.979 126.582,-154.289 116.089,-155.756 119.294,-161.979"></polygon>
+</g>
+<!-- ... -->
+<g id="node7" class="node"><title>...</title>
+<ellipse fill="none" stroke="black" cx="151.441" cy="-88" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="151.441" y="-84.3" font-family="Times New Roman,serif" font-size="14.00">...</text>
+</g>
+<!-- x1&#45;&gt;... -->
+<g id="edge9" class="edge"><title>x1-&gt;...</title>
+<path fill="none" stroke="black" d="M60.1755,-180.983C78.0154,-162.606 108.376,-131.332 128.908,-110.181"></path>
+<polygon fill="black" stroke="black" points="131.533,-112.502 135.987,-102.889 126.51,-107.627 131.533,-112.502"></polygon>
+</g>
+<!-- node500 -->
+<g id="node8" class="node"><title>node500</title>
+<ellipse fill="none" stroke="black" cx="151.441" cy="-34" rx="42.4939" ry="18"></ellipse>
+<text text-anchor="middle" x="151.441" y="-30.3" font-family="Times New Roman,serif" font-size="14.00">node500</text>
+</g>
+<!-- x1&#45;&gt;node500 -->
+<g id="edge13" class="edge"><title>x1-&gt;node500</title>
+<path fill="none" stroke="black" d="M56.2274,-179.575C74.4827,-151.368 111.926,-93.5126 133.71,-59.8521"></path>
+<polygon fill="black" stroke="black" points="136.655,-61.7431 139.15,-51.4462 130.779,-57.9398 136.655,-61.7431"></polygon>
+</g>
+<!-- x2 -->
+<g id="node2" class="node"><title>x2</title>
+<ellipse fill="none" stroke="black" cx="44.5975" cy="-142" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="44.5975" y="-138.3" font-family="Times New Roman,serif" font-size="14.00">x2</text>
+</g>
+<!-- x2&#45;&gt;node1 -->
+<g id="edge2" class="edge"><title>x2-&gt;node1</title>
+<path fill="none" stroke="black" d="M66.5622,-152.798C81.1842,-160.329 100.988,-170.529 117.681,-179.127"></path>
+<polygon fill="black" stroke="black" points="116.089,-182.244 126.582,-183.711 119.294,-176.021 116.089,-182.244"></polygon>
+</g>
+<!-- x2&#45;&gt;node2 -->
+<g id="edge6" class="edge"><title>x2-&gt;node2</title>
+<path fill="none" stroke="black" d="M71.7835,-142C82.7767,-142 95.844,-142 108.139,-142"></path>
+<polygon fill="black" stroke="black" points="108.223,-145.5 118.223,-142 108.223,-138.5 108.223,-145.5"></polygon>
+</g>
+<!-- x2&#45;&gt;... -->
+<g id="edge10" class="edge"><title>x2-&gt;...</title>
+<path fill="none" stroke="black" d="M66.5622,-131.202C81.9909,-123.255 103.189,-112.337 120.414,-103.466"></path>
+<polygon fill="black" stroke="black" points="122.225,-106.47 129.513,-98.7792 119.02,-100.247 122.225,-106.47"></polygon>
+</g>
+<!-- x2&#45;&gt;node500 -->
+<g id="edge14" class="edge"><title>x2-&gt;node500</title>
+<path fill="none" stroke="black" d="M60.1755,-126.983C77.5142,-109.122 106.68,-79.0786 127.155,-57.9869"></path>
+<polygon fill="black" stroke="black" points="129.813,-60.2735 134.268,-50.6605 124.791,-55.3977 129.813,-60.2735"></polygon>
+</g>
+<!-- .. -->
+<g id="node3" class="node"><title>..</title>
+<ellipse fill="none" stroke="black" cx="44.5975" cy="-88" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="44.5975" y="-84.3" font-family="Times New Roman,serif" font-size="14.00">..</text>
+</g>
+<!-- ..&#45;&gt;node1 -->
+<g id="edge3" class="edge"><title>..-&gt;node1</title>
+<path fill="none" stroke="black" d="M60.1755,-103.017C77.7147,-121.084 107.356,-151.618 127.862,-172.741"></path>
+<polygon fill="black" stroke="black" points="125.487,-175.32 134.964,-180.057 130.51,-170.444 125.487,-175.32"></polygon>
+</g>
+<!-- ..&#45;&gt;node2 -->
+<g id="edge7" class="edge"><title>..-&gt;node2</title>
+<path fill="none" stroke="black" d="M66.5622,-98.7979C81.1842,-106.329 100.988,-116.529 117.681,-125.127"></path>
+<polygon fill="black" stroke="black" points="116.089,-128.244 126.582,-129.711 119.294,-122.021 116.089,-128.244"></polygon>
+</g>
+<!-- ..&#45;&gt;... -->
+<g id="edge11" class="edge"><title>..-&gt;...</title>
+<path fill="none" stroke="black" d="M71.7835,-88C84.5432,-88 100.097,-88 113.995,-88"></path>
+<polygon fill="black" stroke="black" points="114.226,-91.5001 124.226,-88 114.226,-84.5001 114.226,-91.5001"></polygon>
+</g>
+<!-- ..&#45;&gt;node500 -->
+<g id="edge15" class="edge"><title>..-&gt;node500</title>
+<path fill="none" stroke="black" d="M66.5622,-77.2021C80.3494,-70.1009 98.7435,-60.627 114.793,-52.3607"></path>
+<polygon fill="black" stroke="black" points="116.632,-55.3507 123.919,-47.6603 113.426,-49.1277 116.632,-55.3507"></polygon>
+</g>
+<!-- x784 -->
+<g id="node4" class="node"><title>x784</title>
+<ellipse fill="none" stroke="black" cx="44.5975" cy="-34" rx="28.6953" ry="18"></ellipse>
+<text text-anchor="middle" x="44.5975" y="-30.3" font-family="Times New Roman,serif" font-size="14.00">x784</text>
+</g>
+<!-- x784&#45;&gt;node1 -->
+<g id="edge4" class="edge"><title>x784-&gt;node1</title>
+<path fill="none" stroke="black" d="M56.4227,-50.7267C74.7867,-79.102 112.158,-136.847 133.846,-170.357"></path>
+<polygon fill="black" stroke="black" points="131.146,-172.628 139.518,-179.122 137.023,-168.825 131.146,-172.628"></polygon>
+</g>
+<!-- x784&#45;&gt;node2 -->
+<g id="edge8" class="edge"><title>x784-&gt;node2</title>
+<path fill="none" stroke="black" d="M60.619,-49.4738C78.269,-67.6551 107.722,-97.9945 128.063,-118.948"></path>
+<polygon fill="black" stroke="black" points="125.63,-121.466 135.107,-126.204 130.652,-116.591 125.63,-121.466"></polygon>
+</g>
+<!-- x784&#45;&gt;... -->
+<g id="edge12" class="edge"><title>x784-&gt;...</title>
+<path fill="none" stroke="black" d="M67.3211,-45.1888C82.7058,-53.1127 103.537,-63.8419 120.496,-72.5769"></path>
+<polygon fill="black" stroke="black" points="118.968,-75.7266 129.461,-77.194 122.173,-69.5035 118.968,-75.7266"></polygon>
+</g>
+<!-- x784&#45;&gt;node500 -->
+<g id="edge16" class="edge"><title>x784-&gt;node500</title>
+<path fill="none" stroke="black" d="M73.4184,-34C81.2669,-34 90.0669,-34 98.8365,-34"></path>
+<polygon fill="black" stroke="black" points="99.0583,-37.5001 109.058,-34 99.0582,-30.5001 99.0583,-37.5001"></polygon>
+</g>
+<!-- node1(2) -->
+<g id="node9" class="node"><title>node1(2)</title>
+<ellipse fill="none" stroke="black" cx="281.683" cy="-196" rx="43.5923" ry="18"></ellipse>
+<text text-anchor="middle" x="281.683" y="-192.3" font-family="Times New Roman,serif" font-size="14.00">node1(2)</text>
+</g>
+<!-- node1&#45;&gt;node1(2) -->
+<g id="edge17" class="edge"><title>node1-&gt;node1(2)</title>
+<path fill="none" stroke="black" d="M184.802,-196C197.699,-196 212.889,-196 227.329,-196"></path>
+<polygon fill="black" stroke="black" points="227.668,-199.5 237.668,-196 227.668,-192.5 227.668,-199.5"></polygon>
+</g>
+<!-- node2(2) -->
+<g id="node10" class="node"><title>node2(2)</title>
+<ellipse fill="none" stroke="black" cx="281.683" cy="-142" rx="43.5923" ry="18"></ellipse>
+<text text-anchor="middle" x="281.683" y="-138.3" font-family="Times New Roman,serif" font-size="14.00">node2(2)</text>
+</g>
+<!-- node1&#45;&gt;node2(2) -->
+<g id="edge21" class="edge"><title>node1-&gt;node2(2)</title>
+<path fill="none" stroke="black" d="M178.085,-185.202C196.131,-177.603 220.631,-167.287 241.164,-158.641"></path>
+<polygon fill="black" stroke="black" points="242.721,-161.783 250.579,-154.676 240.005,-155.331 242.721,-161.783"></polygon>
+</g>
+<!-- .... -->
+<g id="node11" class="node"><title>....</title>
+<ellipse fill="none" stroke="black" cx="281.683" cy="-88" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="281.683" y="-84.3" font-family="Times New Roman,serif" font-size="14.00">....</text>
+</g>
+<!-- node1&#45;&gt;.... -->
+<g id="edge25" class="edge"><title>node1-&gt;....</title>
+<path fill="none" stroke="black" d="M170.273,-180.983C192.656,-162.133 231.154,-129.711 256.262,-108.566"></path>
+<polygon fill="black" stroke="black" points="258.827,-110.982 264.221,-101.864 254.317,-105.628 258.827,-110.982"></polygon>
+</g>
+<!-- node500(2) -->
+<g id="node12" class="node"><title>node500(2)</title>
+<ellipse fill="none" stroke="black" cx="281.683" cy="-34" rx="51.9908" ry="18"></ellipse>
+<text text-anchor="middle" x="281.683" y="-30.3" font-family="Times New Roman,serif" font-size="14.00">node500(2)</text>
+</g>
+<!-- node1&#45;&gt;node500(2) -->
+<g id="edge29" class="edge"><title>node1-&gt;node500(2)</title>
+<path fill="none" stroke="black" d="M165.443,-179.575C187.868,-151.248 233.962,-93.0197 260.557,-59.4237"></path>
+<polygon fill="black" stroke="black" points="263.41,-61.4593 266.872,-51.4462 257.921,-57.1145 263.41,-61.4593"></polygon>
+</g>
+<!-- node2&#45;&gt;node1(2) -->
+<g id="edge18" class="edge"><title>node2-&gt;node1(2)</title>
+<path fill="none" stroke="black" d="M178.085,-152.798C196.131,-160.397 220.631,-170.713 241.164,-179.359"></path>
+<polygon fill="black" stroke="black" points="240.005,-182.669 250.579,-183.324 242.721,-176.217 240.005,-182.669"></polygon>
+</g>
+<!-- node2&#45;&gt;node2(2) -->
+<g id="edge22" class="edge"><title>node2-&gt;node2(2)</title>
+<path fill="none" stroke="black" d="M184.802,-142C197.699,-142 212.889,-142 227.329,-142"></path>
+<polygon fill="black" stroke="black" points="227.668,-145.5 237.668,-142 227.668,-138.5 227.668,-145.5"></polygon>
+</g>
+<!-- node2&#45;&gt;.... -->
+<g id="edge26" class="edge"><title>node2-&gt;....</title>
+<path fill="none" stroke="black" d="M178.085,-131.202C198.495,-122.608 227.159,-110.538 249.004,-101.34"></path>
+<polygon fill="black" stroke="black" points="250.648,-104.445 258.506,-97.3382 247.932,-97.9933 250.648,-104.445"></polygon>
+</g>
+<!-- node2&#45;&gt;node500(2) -->
+<g id="edge30" class="edge"><title>node2-&gt;node500(2)</title>
+<path fill="none" stroke="black" d="M170.273,-126.983C191.76,-108.887 228.097,-78.2859 253.183,-57.159"></path>
+<polygon fill="black" stroke="black" points="255.505,-59.7792 260.9,-50.6605 250.996,-54.425 255.505,-59.7792"></polygon>
+</g>
+<!-- ...&#45;&gt;node1(2) -->
+<g id="edge19" class="edge"><title>...-&gt;node1(2)</title>
+<path fill="none" stroke="black" d="M168.944,-101.898C190.309,-119.891 227.832,-151.491 253.45,-173.065"></path>
+<polygon fill="black" stroke="black" points="251.41,-175.923 261.313,-179.688 255.919,-170.569 251.41,-175.923"></polygon>
+</g>
+<!-- ...&#45;&gt;node2(2) -->
+<g id="edge23" class="edge"><title>...-&gt;node2(2)</title>
+<path fill="none" stroke="black" d="M174.779,-97.4061C193.032,-105.092 219.287,-116.147 241.088,-125.327"></path>
+<polygon fill="black" stroke="black" points="239.859,-128.607 250.433,-129.263 242.575,-122.156 239.859,-128.607"></polygon>
+</g>
+<!-- ...&#45;&gt;.... -->
+<g id="edge27" class="edge"><title>...-&gt;....</title>
+<path fill="none" stroke="black" d="M178.702,-88C197.634,-88 223.426,-88 244.334,-88"></path>
+<polygon fill="black" stroke="black" points="244.457,-91.5001 254.457,-88 244.457,-84.5001 244.457,-91.5001"></polygon>
+</g>
+<!-- ...&#45;&gt;node500(2) -->
+<g id="edge31" class="edge"><title>...-&gt;node500(2)</title>
+<path fill="none" stroke="black" d="M174.779,-78.5939C192.328,-71.2043 217.273,-60.7005 238.546,-51.7431"></path>
+<polygon fill="black" stroke="black" points="240.163,-54.8596 248.021,-47.7531 237.447,-48.4082 240.163,-54.8596"></polygon>
+</g>
+<!-- node500&#45;&gt;node1(2) -->
+<g id="edge20" class="edge"><title>node500-&gt;node1(2)</title>
+<path fill="none" stroke="black" d="M165.923,-51.0306C188.569,-79.6384 234.353,-137.475 260.733,-170.799"></path>
+<polygon fill="black" stroke="black" points="258.045,-173.042 266.996,-178.71 263.533,-168.697 258.045,-173.042"></polygon>
+</g>
+<!-- node500&#45;&gt;node2(2) -->
+<g id="edge24" class="edge"><title>node500-&gt;node2(2)</title>
+<path fill="none" stroke="black" d="M171.364,-49.9358C193.147,-68.2811 229.092,-98.552 253.779,-119.343"></path>
+<polygon fill="black" stroke="black" points="251.779,-122.234 261.683,-125.999 256.288,-116.88 251.779,-122.234"></polygon>
+</g>
+<!-- node500&#45;&gt;.... -->
+<g id="edge28" class="edge"><title>node500-&gt;....</title>
+<path fill="none" stroke="black" d="M182.185,-46.5244C202.151,-54.9318 228.431,-65.9978 248.824,-74.5847"></path>
+<polygon fill="black" stroke="black" points="247.734,-77.9233 258.308,-78.5785 250.45,-71.4719 247.734,-77.9233"></polygon>
+</g>
+<!-- node500&#45;&gt;node500(2) -->
+<g id="edge32" class="edge"><title>node500-&gt;node500(2)</title>
+<path fill="none" stroke="black" d="M193.724,-34C201.933,-34 210.718,-34 219.432,-34"></path>
+<polygon fill="black" stroke="black" points="219.59,-37.5001 229.59,-34 219.589,-30.5001 219.59,-37.5001"></polygon>
+</g>
+<!-- y10 -->
+<g id="node13" class="node"><title>y10</title>
+<ellipse fill="none" stroke="black" cx="416.678" cy="-61" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="416.678" y="-57.3" font-family="Times New Roman,serif" font-size="14.00">y10</text>
+</g>
+<!-- node1(2)&#45;&gt;y10 -->
+<g id="edge33" class="edge"><title>node1(2)-&gt;y10</title>
+<path fill="none" stroke="black" d="M298.991,-179.446C322.728,-155.351 366.864,-110.55 393.525,-83.487"></path>
+<polygon fill="black" stroke="black" points="396.349,-85.6082 400.873,-76.0282 391.362,-80.6956 396.349,-85.6082"></polygon>
+</g>
+<!-- y1 -->
+<g id="node14" class="node"><title>y1</title>
+<ellipse fill="none" stroke="black" cx="416.678" cy="-169" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="416.678" y="-165.3" font-family="Times New Roman,serif" font-size="14.00">y1</text>
+</g>
+<!-- node1(2)&#45;&gt;y1 -->
+<g id="edge37" class="edge"><title>node1(2)-&gt;y1</title>
+<path fill="none" stroke="black" d="M321.151,-188.19C339.964,-184.371 362.441,-179.808 380.757,-176.09"></path>
+<polygon fill="black" stroke="black" points="381.622,-179.485 390.726,-174.066 380.23,-172.625 381.622,-179.485"></polygon>
+</g>
+<!-- . -->
+<g id="node15" class="node"><title>.</title>
+<ellipse fill="none" stroke="black" cx="416.678" cy="-115" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="416.678" y="-111.3" font-family="Times New Roman,serif" font-size="14.00">.</text>
+</g>
+<!-- node1(2)&#45;&gt;. -->
+<g id="edge41" class="edge"><title>node1(2)-&gt;.</title>
+<path fill="none" stroke="black" d="M307.076,-181.143C329.817,-167.293 363.719,-146.645 387.582,-132.112"></path>
+<polygon fill="black" stroke="black" points="389.473,-135.058 396.193,-126.868 385.831,-129.08 389.473,-135.058"></polygon>
+</g>
+<!-- node2(2)&#45;&gt;y10 -->
+<g id="edge34" class="edge"><title>node2(2)-&gt;y10</title>
+<path fill="none" stroke="black" d="M307.076,-127.143C329.817,-113.293 363.719,-92.6454 387.582,-78.1115"></path>
+<polygon fill="black" stroke="black" points="389.473,-81.0585 396.193,-72.8676 385.831,-75.08 389.473,-81.0585"></polygon>
+</g>
+<!-- node2(2)&#45;&gt;y1 -->
+<g id="edge38" class="edge"><title>node2(2)-&gt;y1</title>
+<path fill="none" stroke="black" d="M321.151,-149.81C339.964,-153.629 362.441,-158.192 380.757,-161.91"></path>
+<polygon fill="black" stroke="black" points="380.23,-165.375 390.726,-163.934 381.622,-158.515 380.23,-165.375"></polygon>
+</g>
+<!-- node2(2)&#45;&gt;. -->
+<g id="edge42" class="edge"><title>node2(2)-&gt;.</title>
+<path fill="none" stroke="black" d="M321.151,-134.19C339.964,-130.371 362.441,-125.808 380.757,-122.09"></path>
+<polygon fill="black" stroke="black" points="381.622,-125.485 390.726,-120.066 380.23,-118.625 381.622,-125.485"></polygon>
+</g>
+<!-- ....&#45;&gt;y10 -->
+<g id="edge35" class="edge"><title>....-&gt;y10</title>
+<path fill="none" stroke="black" d="M307.698,-82.9215C328.187,-78.7619 357.424,-72.8264 380.309,-68.1804"></path>
+<polygon fill="black" stroke="black" points="381.219,-71.5672 390.323,-66.1475 379.826,-64.7071 381.219,-71.5672"></polygon>
+</g>
+<!-- ....&#45;&gt;y1 -->
+<g id="edge39" class="edge"><title>....-&gt;y1</title>
+<path fill="none" stroke="black" d="M302.307,-99.9518C324.701,-113.591 361.527,-136.02 387.106,-151.599"></path>
+<polygon fill="black" stroke="black" points="385.612,-154.787 395.974,-156.999 389.254,-148.808 385.612,-154.787"></polygon>
+</g>
+<!-- ....&#45;&gt;. -->
+<g id="edge43" class="edge"><title>....-&gt;.</title>
+<path fill="none" stroke="black" d="M307.698,-93.0785C328.187,-97.2381 357.424,-103.174 380.309,-107.82"></path>
+<polygon fill="black" stroke="black" points="379.826,-111.293 390.323,-109.852 381.219,-104.433 379.826,-111.293"></polygon>
+</g>
+<!-- node500(2)&#45;&gt;y10 -->
+<g id="edge36" class="edge"><title>node500(2)-&gt;y10</title>
+<path fill="none" stroke="black" d="M326.968,-42.9906C344.324,-46.5141 363.961,-50.5007 380.339,-53.8257"></path>
+<polygon fill="black" stroke="black" points="380.078,-57.3441 390.575,-55.9037 381.471,-50.484 380.078,-57.3441"></polygon>
+</g>
+<!-- node500(2)&#45;&gt;y1 -->
+<g id="edge40" class="edge"><title>node500(2)-&gt;y1</title>
+<path fill="none" stroke="black" d="M299.527,-51.0978C323.447,-75.3784 367.282,-119.874 393.723,-146.714"></path>
+<polygon fill="black" stroke="black" points="391.498,-149.442 401.009,-154.11 396.484,-144.53 391.498,-149.442"></polygon>
+</g>
+<!-- node500(2)&#45;&gt;. -->
+<g id="edge44" class="edge"><title>node500(2)-&gt;.</title>
+<path fill="none" stroke="black" d="M308.326,-49.6176C330.982,-63.4164 363.969,-83.507 387.388,-97.7699"></path>
+<polygon fill="black" stroke="black" points="385.8,-100.901 396.161,-103.113 389.441,-94.9225 385.8,-100.901"></polygon>
+</g>
+</g>
+</svg>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">43052</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">net</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">net</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">net</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'softmax'</span><span class="p">))</span>
+<span class="n">net</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">,</span><span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">categorical_crossentropy</span><span class="p">,</span><span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">'accuracy'</span><span class="p">])</span>
+<span class="n">net</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">1200</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Epoch 1/50
+50/50 [==============================] - 4s 77ms/step - loss: 21.5888 - accuracy: 0.6877
+Epoch 2/50
+50/50 [==============================] - 4s 87ms/step - loss: 1.9781 - accuracy: 0.8038
+Epoch 3/50
+50/50 [==============================] - 4s 76ms/step - loss: 1.2649 - accuracy: 0.8204
+Epoch 4/50
+50/50 [==============================] - 4s 78ms/step - loss: 0.9467 - accuracy: 0.8335
+Epoch 5/50
+50/50 [==============================] - 5s 96ms/step - loss: 0.7478 - accuracy: 0.8451
+Epoch 6/50
+50/50 [==============================] - 4s 88ms/step - loss: 0.6173 - accuracy: 0.8554
+Epoch 7/50
+50/50 [==============================] - 4s 76ms/step - loss: 0.5651 - accuracy: 0.8599
+Epoch 8/50
+50/50 [==============================] - 4s 72ms/step - loss: 0.4842 - accuracy: 0.8712
+Epoch 9/50
+50/50 [==============================] - 4s 81ms/step - loss: 0.4490 - accuracy: 0.8732
+Epoch 10/50
+50/50 [==============================] - 4s 78ms/step - loss: 0.3920 - accuracy: 0.8840
+Epoch 11/50
+50/50 [==============================] - 4s 78ms/step - loss: 0.3590 - accuracy: 0.8895
+Epoch 12/50
+50/50 [==============================] - 4s 82ms/step - loss: 0.3473 - accuracy: 0.8918
+Epoch 13/50
+50/50 [==============================] - 4s 77ms/step - loss: 0.3111 - accuracy: 0.9001
+Epoch 14/50
+50/50 [==============================] - 4s 72ms/step - loss: 0.2906 - accuracy: 0.9041
+Epoch 15/50
+50/50 [==============================] - 8s 156ms/step - loss: 0.2861 - accuracy: 0.9050
+Epoch 16/50
+50/50 [==============================] - 12s 228ms/step - loss: 0.2713 - accuracy: 0.9079
+Epoch 17/50
+50/50 [==============================] - 5s 103ms/step - loss: 0.2535 - accuracy: 0.9133
+Epoch 18/50
+50/50 [==============================] - 4s 79ms/step - loss: 0.2357 - accuracy: 0.9187
+Epoch 19/50
+50/50 [==============================] - 4s 73ms/step - loss: 0.2169 - accuracy: 0.9226
+Epoch 20/50
+50/50 [==============================] - 4s 77ms/step - loss: 0.2051 - accuracy: 0.9263
+Epoch 21/50
+50/50 [==============================] - 3s 68ms/step - loss: 0.1999 - accuracy: 0.9292
+Epoch 22/50
+50/50 [==============================] - 4s 85ms/step - loss: 0.1963 - accuracy: 0.9308
+Epoch 23/50
+50/50 [==============================] - 4s 71ms/step - loss: 0.1870 - accuracy: 0.9339
+Epoch 24/50
+50/50 [==============================] - 4s 71ms/step - loss: 0.1886 - accuracy: 0.9325
+Epoch 25/50
+50/50 [==============================] - 3s 63ms/step - loss: 0.1923 - accuracy: 0.9329
+Epoch 26/50
+50/50 [==============================] - 3s 69ms/step - loss: 0.1794 - accuracy: 0.9365
+Epoch 27/50
+50/50 [==============================] - 3s 69ms/step - loss: 0.1939 - accuracy: 0.9308
+Epoch 28/50
+50/50 [==============================] - 3s 65ms/step - loss: 0.1756 - accuracy: 0.9356
+Epoch 29/50
+50/50 [==============================] - 4s 73ms/step - loss: 0.1495 - accuracy: 0.9455
+Epoch 30/50
+50/50 [==============================] - 4s 70ms/step - loss: 0.1837 - accuracy: 0.9350
+Epoch 31/50
+50/50 [==============================] - 3s 67ms/step - loss: 0.1405 - accuracy: 0.9490
+Epoch 32/50
+50/50 [==============================] - 3s 67ms/step - loss: 0.1347 - accuracy: 0.9507
+Epoch 33/50
+50/50 [==============================] - 3s 69ms/step - loss: 0.1304 - accuracy: 0.9526
+Epoch 34/50
+50/50 [==============================] - 3s 69ms/step - loss: 0.1390 - accuracy: 0.9498
+Epoch 35/50
+50/50 [==============================] - 3s 69ms/step - loss: 0.1277 - accuracy: 0.9529
+Epoch 36/50
+50/50 [==============================] - 4s 72ms/step - loss: 0.1141 - accuracy: 0.9573
+Epoch 37/50
+50/50 [==============================] - 4s 71ms/step - loss: 0.1189 - accuracy: 0.9559
+Epoch 38/50
+50/50 [==============================] - 3s 69ms/step - loss: 0.1181 - accuracy: 0.9558
+Epoch 39/50
+50/50 [==============================] - 4s 78ms/step - loss: 0.1148 - accuracy: 0.9572
+Epoch 40/50
+50/50 [==============================] - 5s 93ms/step - loss: 0.1143 - accuracy: 0.9581
+Epoch 41/50
+50/50 [==============================] - 4s 79ms/step - loss: 0.1218 - accuracy: 0.9545
+Epoch 42/50
+50/50 [==============================] - 4s 72ms/step - loss: 0.1224 - accuracy: 0.9548
+Epoch 43/50
+50/50 [==============================] - 4s 73ms/step - loss: 0.1143 - accuracy: 0.9584
+Epoch 44/50
+50/50 [==============================] - 4s 73ms/step - loss: 0.1097 - accuracy: 0.9603
+Epoch 45/50
+50/50 [==============================] - 4s 72ms/step - loss: 0.1251 - accuracy: 0.9542
+Epoch 46/50
+50/50 [==============================] - 4s 73ms/step - loss: 0.1153 - accuracy: 0.9576
+Epoch 47/50
+50/50 [==============================] - 4s 79ms/step - loss: 0.1066 - accuracy: 0.9612
+Epoch 48/50
+50/50 [==============================] - 4s 78ms/step - loss: 0.1018 - accuracy: 0.9624
+Epoch 49/50
+50/50 [==============================] - 4s 75ms/step - loss: 0.1104 - accuracy: 0.9604
+Epoch 50/50
+50/50 [==============================] - 4s 75ms/step - loss: 0.1053 - accuracy: 0.9616
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;keras.callbacks.History at 0x1b81bf33b80&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">XX</span><span class="p">,</span><span class="n">yy</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>313/313 [==============================] - 2s 6ms/step - loss: 0.7337 - accuracy: 0.8618
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[0.7337304949760437, 0.8618000149726868]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="추가학습">
+<a class="anchor" href="#%EC%B6%94%EA%B0%80%ED%95%99%EC%8A%B5" aria-hidden="true"><span class="octicon octicon-link"></span></a>추가학습<a class="anchor-link" href="#%EC%B6%94%EA%B0%80%ED%95%99%EC%8A%B5"> </a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>-</code> 시도1,2에서 사용된 모형에서 각각 추정해야할 파라메터의 수를 구하고 비교하라.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>hint: <code>net.summary()</code> 이용</strong></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">43052</span><span class="p">)</span>
+<span class="n">net1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">net1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">net1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'softmax'</span><span class="p">))</span>
+<span class="n">net1</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">,</span><span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">categorical_crossentropy</span><span class="p">,</span><span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">'accuracy'</span><span class="p">])</span>
+<span class="n">net1</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">epochs</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">1200</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Epoch 1/20
+50/50 [==============================] - 1s 10ms/step - loss: 32.5636 - accuracy: 0.3732
+Epoch 2/20
+50/50 [==============================] - 0s 9ms/step - loss: 2.4426 - accuracy: 0.3876
+Epoch 3/20
+50/50 [==============================] - 0s 10ms/step - loss: 1.9157 - accuracy: 0.3830
+Epoch 4/20
+50/50 [==============================] - 0s 10ms/step - loss: 1.7747 - accuracy: 0.4075
+Epoch 5/20
+50/50 [==============================] - 1s 10ms/step - loss: 1.6499 - accuracy: 0.4506
+Epoch 6/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.5429 - accuracy: 0.4854
+Epoch 7/20
+50/50 [==============================] - 0s 10ms/step - loss: 1.4646 - accuracy: 0.4987
+Epoch 8/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.3988 - accuracy: 0.5224
+Epoch 9/20
+50/50 [==============================] - 0s 10ms/step - loss: 1.3393 - accuracy: 0.5462
+Epoch 10/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.2876 - accuracy: 0.5537
+Epoch 11/20
+50/50 [==============================] - 1s 10ms/step - loss: 1.2507 - accuracy: 0.5610
+Epoch 12/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.2187 - accuracy: 0.5704
+Epoch 13/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.1909 - accuracy: 0.5724
+Epoch 14/20
+50/50 [==============================] - 1s 10ms/step - loss: 1.1661 - accuracy: 0.5767
+Epoch 15/20
+50/50 [==============================] - 1s 11ms/step - loss: 1.1448 - accuracy: 0.5807
+Epoch 16/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.1248 - accuracy: 0.5847
+Epoch 17/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.1038 - accuracy: 0.5895
+Epoch 18/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.0868 - accuracy: 0.5917
+Epoch 19/20
+50/50 [==============================] - 0s 9ms/step - loss: 1.0720 - accuracy: 0.5945
+Epoch 20/20
+50/50 [==============================] - 1s 11ms/step - loss: 1.0525 - accuracy: 0.6013
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;keras.callbacks.History at 0x1b81527ad00&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net1</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">XX</span><span class="p">,</span><span class="n">yy</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>313/313 [==============================] - 1s 3ms/step - loss: 1.0973 - accuracy: 0.6055
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[1.0972778797149658, 0.6054999828338623]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">43052</span><span class="p">)</span>
+<span class="n">net2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+<span class="n">net2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">net2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">net2</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">activation</span><span class="o">=</span><span class="s1">'softmax'</span><span class="p">))</span>
+<span class="n">net2</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">,</span><span class="n">loss</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">categorical_crossentropy</span><span class="p">,</span><span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">'accuracy'</span><span class="p">])</span>
+<span class="n">net2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">epochs</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">1200</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Epoch 1/50
+50/50 [==============================] - 5s 81ms/step - loss: 21.5888 - accuracy: 0.6877
+Epoch 2/50
+50/50 [==============================] - 4s 79ms/step - loss: 1.9781 - accuracy: 0.8038
+Epoch 3/50
+50/50 [==============================] - 4s 80ms/step - loss: 1.2649 - accuracy: 0.8204
+Epoch 4/50
+50/50 [==============================] - 4s 76ms/step - loss: 0.9467 - accuracy: 0.8335
+Epoch 5/50
+50/50 [==============================] - 4s 73ms/step - loss: 0.7478 - accuracy: 0.8451
+Epoch 6/50
+50/50 [==============================] - 4s 74ms/step - loss: 0.6173 - accuracy: 0.8554
+Epoch 7/50
+50/50 [==============================] - 4s 78ms/step - loss: 0.5651 - accuracy: 0.8599
+Epoch 8/50
+50/50 [==============================] - 4s 78ms/step - loss: 0.4842 - accuracy: 0.8712
+Epoch 9/50
+50/50 [==============================] - 4s 76ms/step - loss: 0.4490 - accuracy: 0.8732
+Epoch 10/50
+50/50 [==============================] - 4s 76ms/step - loss: 0.3920 - accuracy: 0.8840
+Epoch 11/50
+50/50 [==============================] - 4s 76ms/step - loss: 0.3590 - accuracy: 0.8895
+Epoch 12/50
+50/50 [==============================] - 4s 77ms/step - loss: 0.3473 - accuracy: 0.8918
+Epoch 13/50
+50/50 [==============================] - 4s 71ms/step - loss: 0.3111 - accuracy: 0.9001
+Epoch 14/50
+50/50 [==============================] - 4s 75ms/step - loss: 0.2906 - accuracy: 0.9041
+Epoch 15/50
+50/50 [==============================] - 4s 75ms/step - loss: 0.2861 - accuracy: 0.9050
+Epoch 16/50
+50/50 [==============================] - 4s 76ms/step - loss: 0.2713 - accuracy: 0.9079
+Epoch 17/50
+50/50 [==============================] - 4s 74ms/step - loss: 0.2535 - accuracy: 0.9133
+Epoch 18/50
+50/50 [==============================] - 4s 77ms/step - loss: 0.2357 - accuracy: 0.9187
+Epoch 19/50
+50/50 [==============================] - 4s 75ms/step - loss: 0.2169 - accuracy: 0.9226
+Epoch 20/50
+50/50 [==============================] - 4s 80ms/step - loss: 0.2051 - accuracy: 0.9263
+Epoch 21/50
+50/50 [==============================] - 4s 77ms/step - loss: 0.1999 - accuracy: 0.9292
+Epoch 22/50
+50/50 [==============================] - 4s 78ms/step - loss: 0.1963 - accuracy: 0.9308
+Epoch 23/50
+50/50 [==============================] - 4s 75ms/step - loss: 0.1870 - accuracy: 0.9339
+Epoch 24/50
+50/50 [==============================] - 4s 75ms/step - loss: 0.1886 - accuracy: 0.9325
+Epoch 25/50
+50/50 [==============================] - 4s 74ms/step - loss: 0.1923 - accuracy: 0.9329
+Epoch 26/50
+50/50 [==============================] - 4s 74ms/step - loss: 0.1794 - accuracy: 0.9365
+Epoch 27/50
+50/50 [==============================] - 4s 77ms/step - loss: 0.1939 - accuracy: 0.9308
+Epoch 28/50
+50/50 [==============================] - 4s 76ms/step - loss: 0.1756 - accuracy: 0.9356
+Epoch 29/50
+50/50 [==============================] - 4s 73ms/step - loss: 0.1495 - accuracy: 0.9455
+Epoch 30/50
+50/50 [==============================] - 4s 73ms/step - loss: 0.1837 - accuracy: 0.9350
+Epoch 31/50
+50/50 [==============================] - 4s 79ms/step - loss: 0.1405 - accuracy: 0.9490
+Epoch 32/50
+50/50 [==============================] - 4s 77ms/step - loss: 0.1347 - accuracy: 0.9507
+Epoch 33/50
+50/50 [==============================] - 4s 76ms/step - loss: 0.1304 - accuracy: 0.9526
+Epoch 34/50
+50/50 [==============================] - 4s 78ms/step - loss: 0.1390 - accuracy: 0.9498
+Epoch 35/50
+50/50 [==============================] - 4s 74ms/step - loss: 0.1277 - accuracy: 0.9529
+Epoch 36/50
+50/50 [==============================] - 4s 76ms/step - loss: 0.1141 - accuracy: 0.9573
+Epoch 37/50
+50/50 [==============================] - 4s 75ms/step - loss: 0.1189 - accuracy: 0.9559
+Epoch 38/50
+50/50 [==============================] - 4s 76ms/step - loss: 0.1181 - accuracy: 0.9558
+Epoch 39/50
+50/50 [==============================] - 4s 75ms/step - loss: 0.1148 - accuracy: 0.9572
+Epoch 40/50
+50/50 [==============================] - 4s 77ms/step - loss: 0.1143 - accuracy: 0.9581
+Epoch 41/50
+50/50 [==============================] - 4s 77ms/step - loss: 0.1218 - accuracy: 0.9545
+Epoch 42/50
+50/50 [==============================] - 4s 75ms/step - loss: 0.1224 - accuracy: 0.9548
+Epoch 43/50
+50/50 [==============================] - 4s 74ms/step - loss: 0.1143 - accuracy: 0.9584
+Epoch 44/50
+50/50 [==============================] - 4s 75ms/step - loss: 0.1097 - accuracy: 0.9603
+Epoch 45/50
+50/50 [==============================] - 4s 74ms/step - loss: 0.1251 - accuracy: 0.9542
+Epoch 46/50
+50/50 [==============================] - 4s 75ms/step - loss: 0.1153 - accuracy: 0.9576
+Epoch 47/50
+50/50 [==============================] - 4s 76ms/step - loss: 0.1066 - accuracy: 0.9612
+Epoch 48/50
+50/50 [==============================] - 4s 76ms/step - loss: 0.1018 - accuracy: 0.9624
+Epoch 49/50
+50/50 [==============================] - 4s 72ms/step - loss: 0.1104 - accuracy: 0.9604
+Epoch 50/50
+50/50 [==============================] - 4s 74ms/step - loss: 0.1053 - accuracy: 0.9616
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;keras.callbacks.History at 0x1b815345460&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net2</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">XX</span><span class="p">,</span><span class="n">yy</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>313/313 [==============================] - 2s 5ms/step - loss: 0.7337 - accuracy: 0.8618
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[0.7337304949760437, 0.8618000149726868]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net1</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Model: "sequential_7"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_15 (Dense)            (None, 30)                23550     
+                                                                 
+ dense_16 (Dense)            (None, 10)                310       
+                                                                 
+=================================================================
+Total params: 23,860
+Trainable params: 23,860
+Non-trainable params: 0
+_________________________________________________________________
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">net2</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Model: "sequential_8"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ dense_17 (Dense)            (None, 500)               392500    
+                                                                 
+ dense_18 (Dense)            (None, 500)               250500    
+                                                                 
+ dense_19 (Dense)            (None, 10)                5010      
+                                                                 
+=================================================================
+Total params: 648,010
+Trainable params: 648,010
+Non-trainable params: 0
+_________________________________________________________________
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>시도1에서 추정해야할 파라메터 수는 $23860$개 이다.</li>
+<li>시도2에서 추정해야할 파라메터 수는 $648010$개 이다.</li>
+<li>시도2에서 추정해야할 파라메터 수가 시도1에서 추정해야할 파라메터 수보다 훨씬(약 62만 개) 많다.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="ki5n2/charcoal"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/charcoal/2022/05/06/DS.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/charcoal/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/charcoal/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/charcoal/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/ki5n2" target="_blank" title="ki5n2"><svg class="svg-icon grey"><use xlink:href="/charcoal/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
